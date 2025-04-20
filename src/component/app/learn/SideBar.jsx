@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
-import { fetchListSurah } from "../../../api/endPoint";
+import { fetchListSurah } from "../../../api/endpoint";
 import { useNavigate } from "react-router-dom";
 
 const menus = [
