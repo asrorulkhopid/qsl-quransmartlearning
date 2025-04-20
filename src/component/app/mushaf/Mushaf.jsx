@@ -1,7 +1,7 @@
 import React from "react";
 import ItemSurah from "./ItemSurah";
 import { useQuery } from "@tanstack/react-query";
-import { fetchListSurah } from "../../../api/endPoint";
+import { fetchListSurah } from "../../../api/endpoint";
 import Label from "../../label/Label";
 import { useNavigate } from "react-router-dom";
 
