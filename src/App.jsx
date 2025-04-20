@@ -1,5 +1,5 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import NavBar from "./component/NavBar/NavBar";
+import NavBar from "./component/navbar/NavBar";
 import Home from "./component/app/home/Home";
 import Mushaf from "./component/app/mushaf/Mushaf";
 import Learn from "./component/app/learn/Learn";
@@ -15,7 +15,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <div className="h-full w-full flex flex-col">
         <Router>
-          <div className="flex-none sticky top-0">
+          <div className="flex-none sticky top-0 z-50">
             <NavBar />
           </div>
           <div className="grow flex flex-col overflow-hidden">
@@ -23,7 +23,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/mushaf" element={<Mushaf />} />
               <Route path="/mushaf/surah/:id" element={<Surah />} />
-              <Route path="/learn" element={<Learn />} />
+              <Route path="/learn/*" element={<Learn />} />
               <Route path="/guidance" element={<Guidance />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
