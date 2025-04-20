@@ -18,8 +18,8 @@ const Surah = () => {
     if (!currentAyah) return;
     const ayahPlayed = currentAyah.ayahNumber;
 
-    if (ayahPlayed !== -1 && ayahPlayed < data.data.ayat.length) {
-      const nextAyah = data.data.ayat[ayahPlayed];
+    if (ayahPlayed !== -1 && ayahPlayed < data?.data.ayat.length) {
+      const nextAyah = data?.data.ayat[ayahPlayed];
       setCurrentAyah({
         ayahNumber: nextAyah.nomorAyat,
         audioUrl: nextAyah.audio["05"],
@@ -60,10 +60,10 @@ const Surah = () => {
     <div className="p-2 lg:px-44 overflow-y-scroll no-scrollbar">
       <div className="flex flex-col">
         <div className="self-center pb-2 text-black">
-          <Label title={data.data.namaLatin} />
+          <Label title={data?.data.namaLatin} />
         </div>
         <div>
-          {data.data.ayat.map((ayat) => (
+          {data?.data.ayat.map((ayat) => (
             <ItemAyat
               key={ayat.nomorAyat}
               number={Utils.covertLatinNumbertoArabic(ayat.nomorAyat)}
