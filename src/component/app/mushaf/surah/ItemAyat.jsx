@@ -1,0 +1,44 @@
+import React from "react";
+import { CgPlayButton, CgPlayPause } from "react-icons/cg";
+
+const ItemAyat = ({
+  number,
+  ayat,
+  translation,
+  teksLatin,
+  isPlaying,
+  onPlayPause,
+}) => {
+  return (
+    <div className={`px-2 text-slate-700 ${isPlaying ? "bg-indigo-100" : ""}`}>
+      <div className="flex justify-end">
+        <div>
+          <div className="py-2">
+            <p
+              className="text-right text-xl font-serif font-extralight sm:text-2xl "
+              style={{ direction: "rtl" }}>
+              <span className="ml-2">{ayat}</span>
+              <span className="text-xl inline-flex items-center justify-center w-10 rounded bg-gradient-to-br from-indigo-200 to-slate-200">
+                {number}
+              </span>
+            </p>
+          </div>
+          <p className="text-right italic text-indigo-800">{teksLatin}</p>
+          <p className="text-right">{translation}</p>
+        </div>
+        <div className="ml-1 mt-3">
+          <div className="border border-indigo-400 sm:p-0.5 rounded-full cursor-pointer">
+            {isPlaying ? (
+              <CgPlayPause onClick={onPlayPause} />
+            ) : (
+              <CgPlayButton onClick={onPlayPause} />
+            )}
+          </div>
+        </div>
+      </div>
+      <hr className="text-indigo-400" />
+    </div>
+  );
+};
+
+export default ItemAyat;

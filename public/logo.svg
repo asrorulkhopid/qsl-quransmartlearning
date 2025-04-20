@@ -1,0 +1,11 @@
+<svg width="240" height="80" viewBox="0 0 75 40" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .text { font-family: 'Segoe UI', sans-serif; font-weight: bold; font-size: 28px; }
+    .q { fill:rgb(0, 0, 0); } /* Sky blue */
+    .s { fill:rgb(255, 255, 255); } /* Emerald green */
+    .l { fill:rgb(255, 255, 255); } /* Amber */
+  </style>
+  <text x="0" y="30" class="text q">Q</text>
+  <text x="30" y="30" class="text s">S</text>
+  <text x="55" y="30" class="text l">L</text>
+</svg>
