@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import ItemAyat from "./ItemAyat";
 import Utils from "../../../../utils/Utils";
 import ReactAudioPlayer from "react-audio-player";
-import { fetchSurah } from "../../../../api/endPoint";
+import { fetchSurah } from "../../../../api/endpoint";
 
 const Surah = () => {
   const { id } = useParams();
@@ -47,7 +47,7 @@ const Surah = () => {
   };
 
   const { isLoading, data, isError } = useQuery({
-    queryFn: () => fetchSurah(id),
+    queryFn: () => fetchSurah,
     queryKey: [`surah-${id}`],
     staleTime: Infinity,
     cacheTime: Infinity,
