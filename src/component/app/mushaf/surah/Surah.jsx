@@ -1,11 +1,11 @@
 import React, { useRef, useState } from "react";
 import Label from "../../../label/Label";
 import { useQuery } from "@tanstack/react-query";
-import { fetchSurah } from "../../../../api/endPoint";
 import { useParams } from "react-router-dom";
 import ItemAyat from "./ItemAyat";
 import Utils from "../../../../utils/Utils";
 import ReactAudioPlayer from "react-audio-player";
+import { fetchSurah } from "../../../../api/endPoint";
 
 const Surah = () => {
   const { id } = useParams();
