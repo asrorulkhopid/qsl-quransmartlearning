@@ -4,7 +4,7 @@ import Vocabulary from "../../../vocabulary/Vocabulary";
 import { createClient } from "@supabase/supabase-js";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { fetchAyah } from "../../../../api/endPoint";
+import { fetchAyah } from "../../../../api/endpoint";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -75,9 +75,7 @@ const Lexicon = () => {
         </div>
         <div className="mt-4">
           <div>
-            <p
-              style={{ direction: "rtl" }}
-              className="font-serif text-xl font-serif">
+            <p style={{ direction: "rtl" }} className="text-xl font-serif">
               {ayahData.teksArab}
             </p>
             <hr className="mt-2 text-indigo-400" />
