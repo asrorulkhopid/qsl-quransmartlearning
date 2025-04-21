@@ -81,10 +81,16 @@ const Lexicon = () => {
             <hr className="mt-2 text-indigo-400" />
           </div>
           <div className="mt-2">
-            <p className="font-semibold text-gray-600">Terdiri dari X kata :</p>
+            <p className="font-semibold text-gray-600">
+              Terdiri dari {ayahData?.length} kata :
+            </p>
             <div className="mt-2 flex flex-row-reverse flex-wrap gap-1">
               {vocabularies?.map((vocab) => (
-                <Vocabulary arabic={vocab.arab} indonesia={vocab.indonesia} />
+                <Vocabulary
+                  key={vocab.id}
+                  arabic={vocab.arab}
+                  indonesia={vocab.indonesia}
+                />
               ))}
             </div>
             <hr className="mt-2 text-indigo-400" />
