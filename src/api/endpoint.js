@@ -10,4 +10,9 @@ const fetchSurah = async (id) => {
   return response.data;
 };
 
+export const fetchAyah = async (surah, ayah) => {
+  const response = await axiosInstance.get(`/surat/${surah}`);
+  return response.data.data.ayat[ayah - 1];
+};
+
 export { fetchListSurah, fetchSurah };

@@ -45,6 +45,7 @@ const SideBar = () => {
           <ul className="m-1 p-1 bg-slate-800 flex flex-col">
             {lexMenus.map((surah) => (
               <li
+                key={surah.namaLatin}
                 onClick={(e) => {
                   e.stopPropagation();
                   setExpandedSurah((prev) => (prev === surah ? null : surah));
@@ -58,6 +59,7 @@ const SideBar = () => {
                       (_, i) => i + 1
                     ).map((ayahNumber) => (
                       <li
+                        key={ayahNumber}
                         onClick={(e) => {
                           e.stopPropagation();
                           handleNavigate("lexicon", surah.nomor, ayahNumber);
@@ -77,6 +79,7 @@ const SideBar = () => {
           <ul className="p-1 bg-slate-800 flex flex-col gap-1">
             {morphMenus.map((menu) => (
               <li
+                key={menu.id}
                 onClick={(e) => {
                   e.stopPropagation();
                   handleNavigate("morphologi", menu.path);
@@ -93,6 +96,7 @@ const SideBar = () => {
           <ul className="p-1 bg-slate-800 flex flex-col gap-1">
             {phraseMenus.map((menu) => (
               <li
+                key={menu.id}
                 onClick={(e) => {
                   e.stopPropagation();
                   handleNavigate("morphologi", menu.path);
