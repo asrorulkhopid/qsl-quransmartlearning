@@ -19,7 +19,11 @@ const fetchSurah = async (id) => {
 
 export const fetchAyah = async (surah, ayah) => {
   const response = await axiosInstance.get(`/surat/${surah}`);
-  return response.data.data.ayat[ayah - 1];
+  const allAyah = response.data.data.ayat;
+  return {
+    ayah: allAyah[ayah - 1],
+    isLastAyah: response.data.data.jumlahAyat == allAyah[ayah - 1].nomorAyat,
+  };
 };
 
 const fetchVocabularies = async (surah, ayah) => {

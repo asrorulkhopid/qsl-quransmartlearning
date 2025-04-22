@@ -25,7 +25,9 @@ const NavBar = () => {
   ];
 
   function handleMenuClick(menu) {
-    navigate(menu.link);
+    if (menu.link === "/learn" && !location.href.includes(menu.link)) {
+      navigate("/learn/lexicon/1/1");
+    } else if (!location.href.includes(menu.link)) navigate(menu.link);
     setIsCollapse(true);
   }
 

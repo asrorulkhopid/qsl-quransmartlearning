@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { fetchListSurah } from "../../../api/endpoint";
 import { useNavigate } from "react-router-dom";
+import Utils from "../../../utils/Utils";
 
 const menus = [
   {
@@ -63,9 +64,10 @@ const SideBar = ({ setIsCollapse }) => {
                         onClick={(e) => {
                           e.stopPropagation();
                           handleNavigate("lexicon", surah.nomor, ayahNumber);
-                          if (window.innerWidth < 640) setIsCollapse(true);
+                          if (Utils.isUnderScreenWidth(640))
+                            setIsCollapse(true);
                         }}
-                        className="hover:text-indigo-300">{`Ayat : ${ayahNumber}`}</li>
+                        className="py-1.5 hover:text-indigo-300">{`Ayat : ${ayahNumber}`}</li>
                     ))}
                   </ul>
                 )}
@@ -84,7 +86,7 @@ const SideBar = ({ setIsCollapse }) => {
                 onClick={(e) => {
                   e.stopPropagation();
                   handleNavigate("morphologi", menu.path);
-                  if (window.innerWidth < 640) setIsCollapse(true);
+                  if (Utils.isUnderScreenWidth(640)) setIsCollapse(true);
                 }}
                 className="p-1 hover:bg-slate-600">
                 {menu.name}
@@ -102,7 +104,7 @@ const SideBar = ({ setIsCollapse }) => {
                 onClick={(e) => {
                   e.stopPropagation();
                   handleNavigate("morphologi", menu.path);
-                  if (window.innerWidth < 640) setIsCollapse(true);
+                  if (Utils.isUnderScreenWidth(640)) setIsCollapse(true);
                 }}
                 className="p-1 hover:bg-slate-600">
                 {menu.name}

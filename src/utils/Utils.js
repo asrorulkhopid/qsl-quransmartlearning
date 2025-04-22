@@ -8,4 +8,6 @@ export default class Utils {
     }
     return result;
   };
+
+  static isUnderScreenWidth = (breakpoint) => window.innerWidth < breakpoint;
 }

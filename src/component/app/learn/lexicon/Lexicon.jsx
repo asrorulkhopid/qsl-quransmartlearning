@@ -5,6 +5,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAyah } from "../../../../api/endpoint";
 import { fetchVocabularies } from "../../../../api/endpoint";
+import Loading from "../../../loading/Loading";
+import Error from "../../../error/Error";
 const Lexicon = () => {
   const { ayah, surah } = useParams();
   const navigate = useNavigate();
@@ -27,8 +29,9 @@ const Lexicon = () => {
     cacheTime: Infinity,
   });
 
-  if (loadingVocabularies) return <p className="text-black">Loading...</p>;
-  if (errorVocabulary) return <p>Error - {errorVocabulary}</p>;
+  if (loadingVocabularies) return <Loading />;
+  if (errorVocabulary)
+    return <Error message={"Something when wrong, please try again"} />;
 
   return (
     <div>

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { fetchAyah, fetchLexiconExamData } from "../../../../api/endpoint";
 import Label from "../../../label/Label";
 import Vocabulary from "../../../vocabulary/Vocabulary";
@@ -36,6 +36,13 @@ const LexiconTest = () => {
     });
   };
 
+  const handleNavigate = (surah, ayah, isLastAyah) => {
+    const nextSurah = isLastAyah ? parseInt(surah) + 1 : surah;
+    const nextAyah = isLastAyah ? 1 : parseInt(ayah) + 1;
+
+    navigate(`/learn/lexicon/${nextSurah}/${nextAyah}`);
+  };
+
   const calculateScore = (vocabCount, selectedVocab, shuffledTranslation) => {
     let correctAnswer = 0;
     let incorrectAnswer = 0;
@@ -68,6 +75,7 @@ const LexiconTest = () => {
   const [selectedVocab, setSelectedVocab] = useState([]);
   const [translationData, setTranslationData] = useState([]);
   const [shuffledTranslation, setShuffledTranslation] = useState([]);
+  const navigate = useNavigate();
 
   const {
     isLoading: isLoadAyah,
@@ -113,7 +121,7 @@ const LexiconTest = () => {
     return <Error message={"Something went wrong, Please try again"} />;
 
   return (
-    <div>
+    <div className="h-full overflow-y-scroll no-scrollbar pb-4">
       <div className="flex flex-col px-4 md:px-16">
         <div className="self-center mt-2">
           <Label title={`Lexicon [ ${surah}:${ayah} ]`} />
@@ -121,7 +129,7 @@ const LexiconTest = () => {
         <div className="mt-4">
           <div>
             <p style={{ direction: "rtl" }} className="text-xl font-serif">
-              {ayahData?.teksArab}
+              {ayahData?.ayah.teksArab}
             </p>
             <hr className="mt-2 text-indigo-400" />
           </div>
@@ -169,16 +177,15 @@ const LexiconTest = () => {
             </p>
             <DndContext onDragEnd={handleDragEnd}>
               <div className="mt-2 flex flex-row-reverse flex-wrap gap-1  text-xl">
-                {translationData?.map((filteredVocab) => (
-                  <div className="flex flex-col gap-1">
+                {translationData?.map((vocab) => (
+                  <div key={vocab.id} className="flex flex-col gap-1">
                     <div className="p-1 border-indigo-400 border-2 rounded-xs text-center font-scheherazade">
-                      {filteredVocab.arab}
+                      {vocab.arab}
                     </div>
                     <DropArea
-                      area_id={filteredVocab.id}
+                      area_id={vocab.id}
                       item={shuffledTranslation.filter(
-                        (translation) =>
-                          translation.area_id === filteredVocab.id
+                        (translation) => translation.area_id === vocab.id
                       )}
                     />
                   </div>
@@ -204,7 +211,7 @@ const LexiconTest = () => {
           <div className="mt-2">
             <p className="font-semibold text-gray-600">Terjemah indah : </p>
             <p className="text-right mt-2 italic text-slate-600">
-              {ayahData.teksIndonesia}
+              {ayahData?.ayah.teksIndonesia}
             </p>
             <hr className="mt-2 text-indigo-400" />
           </div>
@@ -216,7 +223,13 @@ const LexiconTest = () => {
                   selectedVocab,
                   shuffledTranslation
                 );
-                alert(`Your Score : ${score} / 100`);
+                console.log(ayahData);
+                if (score === 100) {
+                  alert("Congrats, You can continue to the next ayah");
+                  handleNavigate(surah, ayah, ayahData.isLastAyah);
+                } else {
+                  alert(`Your Score: ${score}, Please try again!`);
+                }
               }}
               className="bg-indigo-600 px-4 py-2 text-white rounded-md shadow-xs hover:shadow-md hover:font-semibold shadow-slate-600 cursor-pointer">
               Submit
