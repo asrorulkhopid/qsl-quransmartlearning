@@ -167,7 +167,9 @@ const LexiconTest = () => {
             <p className="mt-4 font-semibold text-gray-600">
               Pilih terjemahan yang tepat
             </p>
-            <DndContext onDragEnd={handleDragEnd}>
+            <DndContext
+              onDragEnd={handleDragEnd}
+              options={{ enableMouseEvents: true }}>
               <div className="mt-2 flex flex-row-reverse flex-wrap gap-1 font-serif text-xl">
                 {translationData?.map((filteredVocab) => (
                   <div className="flex flex-col gap-1">
