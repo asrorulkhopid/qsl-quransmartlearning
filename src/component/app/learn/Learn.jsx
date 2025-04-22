@@ -3,9 +3,12 @@ import SideBar from "./SideBar";
 import { CgChevronDoubleLeft, CgChevronDoubleRight } from "react-icons/cg";
 import { Route, Routes } from "react-router-dom";
 import Lexicon from "./lexicon/Lexicon";
+import LexiconTest from "./lexicon/LexiconTest";
 
 const Learn = () => {
-  const [isCollapse, setIsCollapse] = useState(true);
+  const [isCollapse, setIsCollapse] = useState(
+    window.innerWidth < 640 ? true : false
+  );
   return (
     <div
       onClick={() => {
@@ -18,7 +21,7 @@ const Learn = () => {
           className={`z-30 h-full absolute sm:relative transition-all ease-in-out duration-300 ${
             isCollapse ? "w-0" : " w-9/12 sm:w-64"
           }`}>
-          <SideBar />
+          <SideBar setIsCollapse={setIsCollapse} />
         </div>
         <div className="absolute z-40 h-full w-2 ">
           <div
@@ -31,9 +34,13 @@ const Learn = () => {
           </div>
         </div>
         <div className="grow">
-          <div className="">
+          <div className="h-full">
             <Routes>
               <Route path="lexicon/:surah/:ayah" element={<Lexicon />} />
+              <Route
+                path="lexicon/:surah/:ayah/exam"
+                element={<LexiconTest />}
+              />
             </Routes>
           </div>
         </div>

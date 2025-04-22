@@ -30,7 +30,7 @@ const phraseMenus = [
   { id: 3, name: "Materi 3", path: "materi-3" },
 ];
 
-const SideBar = () => {
+const SideBar = ({ setIsCollapse }) => {
   const renderSubMenu = (
     expandedMenu,
     expanddedSurah,
@@ -63,6 +63,7 @@ const SideBar = () => {
                         onClick={(e) => {
                           e.stopPropagation();
                           handleNavigate("lexicon", surah.nomor, ayahNumber);
+                          if (window.innerWidth < 640) setIsCollapse(true);
                         }}
                         className="hover:text-indigo-300">{`Ayat : ${ayahNumber}`}</li>
                     ))}
@@ -83,6 +84,7 @@ const SideBar = () => {
                 onClick={(e) => {
                   e.stopPropagation();
                   handleNavigate("morphologi", menu.path);
+                  if (window.innerWidth < 640) setIsCollapse(true);
                 }}
                 className="p-1 hover:bg-slate-600">
                 {menu.name}
@@ -100,6 +102,7 @@ const SideBar = () => {
                 onClick={(e) => {
                   e.stopPropagation();
                   handleNavigate("morphologi", menu.path);
+                  if (window.innerWidth < 640) setIsCollapse(true);
                 }}
                 className="p-1 hover:bg-slate-600">
                 {menu.name}

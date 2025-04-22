@@ -1,50 +1,13 @@
 import React from "react";
 import Label from "../../../label/Label";
 import Vocabulary from "../../../vocabulary/Vocabulary";
-import { createClient } from "@supabase/supabase-js";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAyah } from "../../../../api/endpoint";
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
-
+import { fetchVocabularies } from "../../../../api/endpoint";
 const Lexicon = () => {
   const { ayah, surah } = useParams();
-  const fetchVocabularies = async (surah, ayah) => {
-    const { data, error } = await supabase
-      .from("ayah_dictionary")
-      .select("dictionaries")
-      .eq("surah", surah)
-      .eq("ayah", ayah);
-    if (error) throw error;
-
-    const dictionaryIds = data[0]?.dictionaries;
-
-    if (dictionaryIds && dictionaryIds.length > 0) {
-      const { data: dictionaries, error: dictError } = await supabase
-        .from("dictionary")
-        .select("*")
-        .in("id", dictionaryIds);
-
-      if (dictError) throw dictError;
-
-      // Sort results according to dictionaryIds order, allowing duplicates
-      const orderedDictionaries = dictionaryIds.flatMap((id, index) =>
-        dictionaries
-          .filter((dict) => dict.id === id)
-          .map((dict, subIndex) => ({
-            ...dict,
-            id: `${dict.id}-${index}-${subIndex}`, // Generate a unique ID
-          }))
-      );
-      console.log(orderedDictionaries);
-
-      return orderedDictionaries;
-    }
-  };
+  const navigate = useNavigate();
 
   const {
     isLoading: loadingVocabularies,
@@ -85,9 +48,9 @@ const Lexicon = () => {
               Terdiri dari {ayahData?.length} kata :
             </p>
             <div className="mt-2 flex flex-row-reverse flex-wrap gap-1">
-              {vocabularies?.map((vocab) => (
+              {vocabularies?.map((vocab, i) => (
                 <Vocabulary
-                  key={vocab.id}
+                  key={i}
                   arabic={vocab.arab}
                   indonesia={vocab.indonesia}
                 />
@@ -97,7 +60,17 @@ const Lexicon = () => {
           </div>
           <div className="mt-2">
             <p className="font-semibold text-gray-600">Terjemah indah : </p>
-            <p className="text-right mt-2">{ayahData.teksIndonesia}</p>
+            <p className="text-right mt-2 italic text-slate-600">
+              {ayahData.teksIndonesia}
+            </p>
+            <hr className="mt-2 text-indigo-400" />
+          </div>
+          <div className="text-right mt-8">
+            <button
+              onClick={() => navigate("exam")}
+              className="bg-indigo-600 px-4 py-2 text-white rounded-md shadow-xs hover:shadow-md hover:font-semibold shadow-slate-600 cursor-pointer">
+              Mark as Done
+            </button>
           </div>
         </div>
       </div>
