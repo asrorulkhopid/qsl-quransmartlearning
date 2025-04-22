@@ -15,7 +15,7 @@ const DragItem = ({ item }) => {
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-      style={style}
+      style={{ ...style, touchAction: "none" }}
       className="p-1 border-2 border-indigo-400 cursor-pointer">
       {item.indonesia}
     </div>
