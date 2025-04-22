@@ -61,7 +61,6 @@ const Surah = () => {
       <div className="flex flex-col">
         <div className="self-center pb-2 text-black">
           <Label title={data?.data.namaLatin} />
-          {console.log("afasdf", data)}
         </div>
         <div>
           {data?.data.ayat.map((ayat) => (

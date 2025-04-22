@@ -16,7 +16,7 @@ const DragItem = ({ item }) => {
       {...listeners}
       {...attributes}
       style={{ ...style, touchAction: "none" }}
-      className="p-1 border-2 border-indigo-400 cursor-pointer">
+      className="p-1 border-2 rounded-sm border-indigo-400 cursor-pointer">
       {item.indonesia}
     </div>
   );

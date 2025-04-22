@@ -140,7 +140,7 @@ const LexiconTest = () => {
             <p className="mt-4 font-semibold text-gray-600">
               Pilih {vocabCount} kata ({selectedVocab.length} dipilih)
             </p>
-            <div className="mt-2 flex flex-row-reverse flex-wrap gap-1 font-serif text-xl">
+            <div className="mt-2 flex flex-row-reverse flex-wrap gap-1 font-scheherazade text-xl">
               {lexiconExamData?.map((vocab) => (
                 <div
                   key={vocab.id}
@@ -168,10 +168,10 @@ const LexiconTest = () => {
               Pilih terjemahan yang tepat
             </p>
             <DndContext onDragEnd={handleDragEnd}>
-              <div className="mt-2 flex flex-row-reverse flex-wrap gap-1 font-serif text-xl">
+              <div className="mt-2 flex flex-row-reverse flex-wrap gap-1  text-xl">
                 {translationData?.map((filteredVocab) => (
                   <div className="flex flex-col gap-1">
-                    <div className="p-1 border-indigo-400 border-2 rounded-xs text-center">
+                    <div className="p-1 border-indigo-400 border-2 rounded-xs text-center font-scheherazade">
                       {filteredVocab.arab}
                     </div>
                     <DropArea
@@ -185,9 +185,10 @@ const LexiconTest = () => {
                 ))}
               </div>
 
-              <div className="mt-2 flex flex-row-reverse flex-wrap gap-1 font-serif text-xl">
+              <div className="mt-2 p-2 flex flex-row-reverse flex-wrap gap-1 font-serif text-xl bg-indigo-100">
                 {shuffledTranslation?.map((filteredVocab) => (
                   <DropArea
+                    key={filteredVocab.id}
                     area_id={`init-${filteredVocab.id}`}
                     item={shuffledTranslation?.filter(
                       (translation) =>

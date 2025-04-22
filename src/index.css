@@ -1,4 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
+
+@theme {
+  --font-scheherazade: "Scheherazade New", sans-serif;
+}
 
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar {

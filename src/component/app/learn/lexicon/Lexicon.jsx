@@ -38,7 +38,9 @@ const Lexicon = () => {
         </div>
         <div className="mt-4">
           <div>
-            <p style={{ direction: "rtl" }} className="text-xl font-serif">
+            <p
+              style={{ direction: "rtl" }}
+              className="text-xl font-scheherazade">
               {ayahData.teksArab}
             </p>
             <hr className="mt-2 text-indigo-400" />

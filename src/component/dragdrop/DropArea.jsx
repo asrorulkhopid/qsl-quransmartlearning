@@ -7,7 +7,7 @@ const DropArea = ({ area_id, item }) => {
 
   return (
     <div
-      className="border-1 border-indigo-400 border-dashed min-h-8"
+      className="border-1 rounded-sm border-indigo-400 border-dashed min-h-8"
       ref={setNodeRef}>
       {item?.length > 0 ? (
         <DragItem item={item[0]} />
