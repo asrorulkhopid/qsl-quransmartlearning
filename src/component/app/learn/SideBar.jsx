@@ -52,7 +52,7 @@ const SideBar = ({ setIsCollapse }) => {
                     e.stopPropagation();
                     setExpandedSurah((prev) => (prev === surah ? null : surah));
                   }}
-                  className="p-1 hover:bg-slate-600 cursor-pointer">
+                  className="p-1 hover:bg-slate-300 cursor-pointer">
                   {surah.namaLatin}
                 </li>
                 {expanddedSurah === surah && (
@@ -90,7 +90,7 @@ const SideBar = ({ setIsCollapse }) => {
                   handleNavigate("morphologi", menu.path);
                   if (Utils.isUnderScreenWidth(640)) setIsCollapse(true);
                 }}
-                className="p-1 hover:bg-slate-600 cursor-pointer">
+                className="p-1 hover:bg-slate-300 cursor-pointer">
                 {menu.name}
               </li>
             ))}
@@ -108,7 +108,7 @@ const SideBar = ({ setIsCollapse }) => {
                   handleNavigate("morphologi", menu.path);
                   if (Utils.isUnderScreenWidth(640)) setIsCollapse(true);
                 }}
-                className="p-1 hover:bg-slate-600 cursor-pointer">
+                className="p-1 hover:bg-slate-300 cursor-pointer">
                 {menu.name}
               </li>
             ))}
@@ -141,7 +141,7 @@ const SideBar = ({ setIsCollapse }) => {
   const [expandedSurah, setExpandedSurah] = useState(null);
 
   return (
-    <div className="h-full bg-gradient-to-l from-slate-300 to-white overflow-y-scroll no-scrollbar text-white">
+    <div className="h-full bg-gradient-to-l from-slate-200 to-white overflow-y-scroll no-scrollbar text-slate-800">
       <ul className="p-2 flex flex-col gap-2">
         {menus.map((menu) => (
           <div key={menu.id}>
@@ -150,7 +150,7 @@ const SideBar = ({ setIsCollapse }) => {
                 e.stopPropagation();
                 setExpandedMenu((prev) => (prev === menu ? null : menu));
               }}
-              className="p-1 bg-slate-600 flex flex-col items-stretch cursor-pointer hover:bg-slate-500">
+              className="p-1 bg-slate-400 flex flex-col items-stretch cursor-pointer hover:bg-slate-500 font-medium">
               <div className="p-1">{menu.name}</div>
             </li>
             {expandedMenu === menu &&
