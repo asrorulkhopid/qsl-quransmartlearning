@@ -3,9 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchAyah, fetchLexiconExamData } from "../../../../api/endpoint";
 import Label from "../../../label/Label";
-import Vocabulary from "../../../vocabulary/Vocabulary";
 import DropArea from "../../../dragdrop/DropArea";
-import DragItem from "../../../dragdrop/DragItem";
 import { DndContext } from "@dnd-kit/core";
 import Loading from "../../../loading/Loading";
 import Error from "../../../error/Error";
@@ -19,6 +17,8 @@ const LexiconTest = () => {
   };
 
   const handleDragEnd = (event) => {
+    setIsCheck(false);
+
     const { over, active } = event;
 
     if (!over) return;
@@ -75,6 +75,7 @@ const LexiconTest = () => {
   const [selectedVocab, setSelectedVocab] = useState([]);
   const [translationData, setTranslationData] = useState([]);
   const [shuffledTranslation, setShuffledTranslation] = useState([]);
+  const [isCheck, setIsCheck] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -128,7 +129,9 @@ const LexiconTest = () => {
         </div>
         <div className="mt-4">
           <div>
-            <p style={{ direction: "rtl" }} className="text-xl font-serif">
+            <p
+              style={{ direction: "rtl" }}
+              className="text-xl font-scheherazade">
               {ayahData?.ayah.teksArab}
             </p>
             <hr className="mt-2 text-indigo-400" />
@@ -141,8 +144,17 @@ const LexiconTest = () => {
                 min={0}
                 max={lexiconExamData?.length}
                 value={vocabCount}
-                className="border border-slate-400 w-16 p-2 "
-                onChange={(e) => setVocabCount(e.target.value)}
+                className={`border w-16 p-2 ${
+                  isCheck &&
+                  vocabCount !=
+                    lexiconExamData.filter((vocab) => vocab.isIncluded).length
+                    ? "border-red-500"
+                    : "border-slate-400"
+                }`}
+                onChange={(e) => {
+                  setIsCheck(false);
+                  setVocabCount(e.target.value);
+                }}
               />
             </div>
             <p className="mt-4 font-semibold text-gray-600">
@@ -152,12 +164,23 @@ const LexiconTest = () => {
               {lexiconExamData?.map((vocab) => (
                 <div
                   key={vocab.id}
-                  className="flex items-center gap-2 bg-indigo-400 rounded-sm p-2 cursor-pointer">
+                  className={`flex items-center border-2 border-indigo-400 gap-2 rounded-sm p-2 cursor-pointer ${
+                    isCheck &&
+                    ((vocab.isIncluded &&
+                      !selectedVocab.some((v) => v.id === vocab.id)) ||
+                      (!vocab.isIncluded &&
+                        selectedVocab.some((v) => v.id === vocab.id)))
+                      ? "border-red-500"
+                      : ""
+                  }`}>
                   <label className="cursor-pointer" htmlFor={`${vocab.id}`}>
                     {vocab.arab}
                   </label>
                   <input
-                    onChange={() => handleCheckBoxChange(vocab)}
+                    onChange={() => {
+                      handleCheckBoxChange(vocab);
+                      setIsCheck(false);
+                    }}
                     className="h-4 w-4 cursor-pointer"
                     type="checkbox"
                     id={`${vocab.id}`}
@@ -187,6 +210,7 @@ const LexiconTest = () => {
                       item={shuffledTranslation.filter(
                         (translation) => translation.area_id === vocab.id
                       )}
+                      isCheck={isCheck}
                     />
                   </div>
                 ))}
@@ -201,6 +225,7 @@ const LexiconTest = () => {
                       (translation) =>
                         translation.area_id === `init-${filteredVocab.id}`
                     )}
+                    isCheck={isCheck}
                   />
                 ))}
               </div>
@@ -223,12 +248,12 @@ const LexiconTest = () => {
                   selectedVocab,
                   shuffledTranslation
                 );
-                console.log(ayahData);
                 if (score === 100) {
                   alert("Congrats, You can continue to the next ayah");
                   handleNavigate(surah, ayah, ayahData.isLastAyah);
                 } else {
                   alert(`Your Score: ${score}, Please try again!`);
+                  setIsCheck(true);
                 }
               }}
               className="bg-indigo-600 px-4 py-2 text-white rounded-md shadow-xs hover:shadow-md hover:font-semibold shadow-slate-600 cursor-pointer">
