@@ -141,7 +141,7 @@ const SideBar = ({ setIsCollapse }) => {
   const [expandedSurah, setExpandedSurah] = useState(null);
 
   return (
-    <div className="h-full bg-gradient-to-r from-slate-800 to-white/90 overflow-y-scroll no-scrollbar text-white">
+    <div className="h-full bg-gradient-to-l from-slate-300 to-white overflow-y-scroll no-scrollbar text-white">
       <ul className="p-2 flex flex-col gap-2">
         {menus.map((menu) => (
           <div key={menu.id}>
