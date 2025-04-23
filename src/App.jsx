@@ -22,7 +22,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/mushaf" element={<Mushaf />} />
-              <Route path="/mushaf/surah/:id" element={<Surah />} />
+              <Route path="/surah/:id" element={<Surah />} />
               <Route path="/learn/*" element={<Learn />} />
               <Route path="/guidance" element={<Guidance />} />
               <Route path="*" element={<NotFound />} />

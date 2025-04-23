@@ -30,7 +30,7 @@ const Learn = () => {
               e.stopPropagation();
               setIsCollapse(!isCollapse);
             }}
-            className="absolute top-1/2 -left-1 rounded-xs h-8 w-6 text-white bg-slate-900 shadow-xs shadow-white flex items-center justify-center">
+            className="absolute sm:hidden top-1/2 -left-1 rounded-xs h-8 w-6 text-white bg-slate-900 shadow-md shadow-white flex items-center justify-center animate-p">
             {isCollapse ? <CgChevronDoubleRight /> : <CgChevronDoubleLeft />}
           </div>
         </div>

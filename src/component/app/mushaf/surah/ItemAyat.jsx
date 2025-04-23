@@ -15,19 +15,19 @@ const ItemAyat = ({
         <div>
           <div className="py-2">
             <p
-              className="text-right text-xl font-scheherazade font-extralight sm:text-2xl "
+              className="text-right text-2xl leading-14 font-scheherazade font-extralight sm:text-2xl"
               style={{ direction: "rtl" }}>
               <span className="ml-2">{ayat}</span>
-              <span className="text-xl inline-flex items-center justify-center w-10 rounded bg-gradient-to-br from-indigo-200 to-slate-200">
-                {number}
-              </span>
             </p>
           </div>
           <p className="text-right italic text-indigo-800">{teksLatin}</p>
           <p className="mt-2 text-right">{translation}</p>
         </div>
-        <div className="ml-1 mt-3">
-          <div className="border border-indigo-400 sm:p-0.5 rounded-full cursor-pointer">
+        <div className="ml-1 mt-5">
+          <div className="text-xl w-10 text-center rounded bg-gradient-to-br from-indigo-200 to-slate-200 font-scheherazade">
+            {number}
+          </div>
+          <div className="mt-2 flex justify-center border border-indigo-400 p-1 rounded-full cursor-pointer">
             {isPlaying ? (
               <CgPlayPause onClick={onPlayPause} />
             ) : (

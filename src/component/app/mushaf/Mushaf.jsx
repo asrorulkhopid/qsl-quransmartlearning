@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const Mushaf = () => {
   const navigate = useNavigate();
   const handleOnClick = (surahNumber) => {
-    navigate(`surah/${surahNumber}`);
+    navigate(`/surah/${surahNumber}`);
   };
 
   const { isError, data, isLoading } = useQuery({
