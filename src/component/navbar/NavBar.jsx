@@ -8,7 +8,7 @@ const NavBar = () => {
   const menus = [
     {
       name: "Home",
-      link: "/",
+      link: "/home",
     },
     {
       name: "Mushaf",
@@ -34,7 +34,7 @@ const NavBar = () => {
   return (
     <div className="bg-gradient-to-r from-slate-900 to-slate-700 text-white px-4 sm:px-12 py-2 flex justify-between items-center ">
       <div>
-        <a href="#" className="font-bold text-3xl sm:text-3xl">
+        <a href="/" className="font-bold text-3xl sm:text-3xl">
           Q-SL
         </a>
       </div>

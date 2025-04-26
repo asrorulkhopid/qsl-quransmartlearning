@@ -4,6 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchListSurah } from "../../../api/endpoint";
 import Label from "../../label/Label";
 import { useNavigate } from "react-router-dom";
+import Loading from "../../loading/Loading";
+import Error from "../../error/Error";
 
 const Mushaf = () => {
   const navigate = useNavigate();
@@ -11,15 +13,21 @@ const Mushaf = () => {
     navigate(`/surah/${surahNumber}`);
   };
 
-  const { isError, data, isLoading } = useQuery({
+  const { isError, data, isLoading, refetch } = useQuery({
     queryFn: fetchListSurah,
     queryKey: ["list-surah"],
     staleTime: Infinity,
     cacheTime: Infinity,
   });
 
-  if (isLoading) return <p className="text-black">Loading...</p>;
-  if (isError) return <p>Error - {isError}</p>;
+  if (isLoading) return <Loading />;
+  if (isError)
+    return (
+      <Error
+        message={"Someting went wrong, Please try again"}
+        onReload={refetch}
+      />
+    );
 
   return (
     <div className="pb-2 overflow-y-scroll px-4 sm:px-8 md:px-24 no-scrollbar">

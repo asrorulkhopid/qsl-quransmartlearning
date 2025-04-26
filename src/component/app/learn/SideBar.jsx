@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { fetchListSurah } from "../../../api/endpoint";
 import { useNavigate } from "react-router-dom";
 import Utils from "../../../utils/Utils";
+import Loading from "../../loading/Loading";
+import Error from "../../error/Error";
 
 const menus = [
   {
@@ -20,15 +22,15 @@ const menus = [
 ];
 
 const morphMenus = [
-  { id: 1, name: "Materi 1", path: "materi-1" },
-  { id: 2, name: "Materi 2", path: "materi-2" },
-  { id: 3, name: "Materi 3", path: "materi-3" },
+  { id: 1, name: "Materi 1" },
+  { id: 2, name: "Materi 2" },
+  { id: 3, name: "Materi 3" },
 ];
 
 const phraseMenus = [
-  { id: 1, name: "Materi 1", path: "materi-1" },
-  { id: 2, name: "Materi 2", path: "materi-2" },
-  { id: 3, name: "Materi 3", path: "materi-3" },
+  { id: 1, name: "Materi 1" },
+  { id: 2, name: "Materi 2" },
+  { id: 3, name: "Materi 3" },
 ];
 
 const SideBar = ({ setIsCollapse }) => {
@@ -45,9 +47,8 @@ const SideBar = ({ setIsCollapse }) => {
         subMenuItem = (
           <ul className="p-1 flex flex-col">
             {lexMenus.map((surah) => (
-              <div>
+              <div key={surah.namaLatin}>
                 <li
-                  key={surah.namaLatin}
                   onClick={(e) => {
                     e.stopPropagation();
                     setExpandedSurah((prev) => (prev === surah ? null : surah));
@@ -87,7 +88,7 @@ const SideBar = ({ setIsCollapse }) => {
                 key={menu.id}
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleNavigate("morphologi", menu.path);
+                  handleNavigate("morphologi", menu.id);
                   if (Utils.isUnderScreenWidth(640)) setIsCollapse(true);
                 }}
                 className="p-1 hover:bg-slate-300 cursor-pointer">
@@ -105,7 +106,7 @@ const SideBar = ({ setIsCollapse }) => {
                 key={menu.id}
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleNavigate("morphologi", menu.path);
+                  handleNavigate("phrase", menu.id);
                   if (Utils.isUnderScreenWidth(640)) setIsCollapse(true);
                 }}
                 className="p-1 hover:bg-slate-300 cursor-pointer">
@@ -130,7 +131,7 @@ const SideBar = ({ setIsCollapse }) => {
   };
 
   const navigate = useNavigate();
-  const { data } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryFn: fetchListSurah,
     queryKey: ["list-surah"],
     staleTime: Infinity,
@@ -142,28 +143,32 @@ const SideBar = ({ setIsCollapse }) => {
 
   return (
     <div className="h-full bg-gradient-to-l from-slate-200 to-white overflow-y-scroll no-scrollbar text-slate-800">
-      <ul className="p-2 flex flex-col gap-2">
-        {menus.map((menu) => (
-          <div key={menu.id}>
-            <li
-              onClick={(e) => {
-                e.stopPropagation();
-                setExpandedMenu((prev) => (prev === menu ? null : menu));
-              }}
-              className="p-1 bg-slate-400 flex flex-col items-stretch cursor-pointer hover:bg-slate-500 font-medium">
-              <div className="p-1">{menu.name}</div>
-            </li>
-            {expandedMenu === menu &&
-              renderSubMenu(
-                expandedMenu,
-                expandedSurah,
-                data?.data,
-                morphMenus,
-                phraseMenus
-              )}
-          </div>
-        ))}
-      </ul>
+      {isLoading && <Loading />}
+      {isError && <Error message={"Try Again"} onReload={refetch} />}
+      {!isLoading && !isError && (
+        <ul className="p-2 flex flex-col gap-2">
+          {menus.map((menu) => (
+            <div key={menu.id}>
+              <li
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setExpandedMenu((prev) => (prev === menu ? null : menu));
+                }}
+                className="p-1 bg-slate-400 flex flex-col items-stretch cursor-pointer hover:bg-slate-500 font-medium">
+                <div className="p-1">{menu.name}</div>
+              </li>
+              {expandedMenu === menu &&
+                renderSubMenu(
+                  expandedMenu,
+                  expandedSurah,
+                  data?.data,
+                  morphMenus,
+                  phraseMenus
+                )}
+            </div>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

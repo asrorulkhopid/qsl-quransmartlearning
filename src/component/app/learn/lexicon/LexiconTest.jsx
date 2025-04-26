@@ -67,7 +67,24 @@ const LexiconTest = () => {
       0,
       (correctAnswer / (correctAnswer + incorrectAnswer)) * 100
     );
-    return finalScore;
+    return finalScore.toFixed(2);
+  };
+
+  const handleOnSubmit = () => {
+    const score = calculateScore(
+      vocabCount,
+      selectedVocab,
+      shuffledTranslation
+    );
+    if (score === "100.00") {
+      alert(
+        `Your Score: ${score} / 100 \nCongrats, You can continue to the next ayah`
+      );
+      handleNavigate(surah, ayah, ayahData.isLastAyah);
+    } else {
+      alert(`Your Score: ${score} / 100 \nPlease try again!`);
+      setIsCheck(true);
+    }
   };
 
   const { surah, ayah } = useParams();
@@ -115,11 +132,16 @@ const LexiconTest = () => {
       setTranslationData(uniqueData);
       setShuffledTranslation([...uniqueData]?.sort(() => Math.random() - 0.5));
     }
-  }, [lexiconExamData]);
+  }, [lexiconExamData, translationData?.length]);
 
   if (isLoadAyah || isLoadExam) return <Loading />;
   if (isErrorAyah || isErrorExam)
-    return <Error message={"Something went wrong, Please try again"} />;
+    return (
+      <Error
+        message={"Something went wrong, Please try again"}
+        onReload={() => location.reload()}
+      />
+    );
 
   return (
     <div className="h-full overflow-y-scroll no-scrollbar pb-4">
@@ -207,10 +229,18 @@ const LexiconTest = () => {
                     </div>
                     <DropArea
                       area_id={vocab.id}
-                      item={shuffledTranslation.filter(
+                      items={shuffledTranslation.filter(
                         (translation) => translation.area_id === vocab.id
                       )}
+                      propertie={"indonesia"}
                       isCheck={isCheck}
+                      isCorrect={
+                        shuffledTranslation
+                          .filter(
+                            (translation) => translation.area_id === vocab.id
+                          )
+                          .map((v) => v.id === v.area_id)[0]
+                      }
                     />
                   </div>
                 ))}
@@ -221,10 +251,11 @@ const LexiconTest = () => {
                   <DropArea
                     key={filteredVocab.id}
                     area_id={`init-${filteredVocab.id}`}
-                    item={shuffledTranslation?.filter(
+                    items={shuffledTranslation?.filter(
                       (translation) =>
                         translation.area_id === `init-${filteredVocab.id}`
                     )}
+                    propertie={"indonesia"}
                     isCheck={isCheck}
                   />
                 ))}
@@ -242,20 +273,7 @@ const LexiconTest = () => {
           </div>
           <div className="text-right mt-8">
             <button
-              onClick={() => {
-                const score = calculateScore(
-                  vocabCount,
-                  selectedVocab,
-                  shuffledTranslation
-                );
-                if (score === 100) {
-                  alert("Congrats, You can continue to the next ayah");
-                  handleNavigate(surah, ayah, ayahData.isLastAyah);
-                } else {
-                  alert(`Your Score: ${score}, Please try again!`);
-                  setIsCheck(true);
-                }
-              }}
+              onClick={handleOnSubmit}
               className="bg-indigo-600 px-4 py-2 text-white rounded-md shadow-xs hover:shadow-md hover:font-semibold shadow-slate-600 cursor-pointer">
               Submit
             </button>

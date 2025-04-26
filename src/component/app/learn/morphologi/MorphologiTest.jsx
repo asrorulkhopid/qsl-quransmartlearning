@@ -1,0 +1,157 @@
+import { useQuery } from "@tanstack/react-query";
+import React, { useState } from "react";
+import { fetchMorphologiExam } from "../../../../api/endpoint";
+import Loading from "../../../loading/Loading";
+import Error from "../../../error/Error";
+import Label from "../../../label/Label";
+import { useParams } from "react-router-dom";
+import Vocabulary from "../../../vocabulary/Vocabulary";
+import DropArea from "../../../dragdrop/DropArea";
+import { DndContext } from "@dnd-kit/core";
+import MultipleDropArea from "../../../dragdrop/MultipleDropArea";
+
+const MorphologiTest = () => {
+  const handleDragEnd = (event) => {
+    const { over, active } = event;
+
+    setIsCheck(false);
+
+    if (!over) return;
+
+    const itemId = active.id;
+    let newAreaId = over.id;
+
+    const targetItems = vocabularies.filter(
+      (item) => item.area_id === newAreaId
+    );
+
+    const isLimitedArea = typeof newAreaId === "number";
+
+    if (isLimitedArea) {
+      if (targetItems.length >= 1) return;
+      else newAreaId = itemId;
+    }
+
+    setVocabularies((prev) =>
+      prev.map((item) =>
+        item.id == itemId ? { ...item, area_id: newAreaId } : item
+      )
+    );
+  };
+
+  const calculateScore = (vocabularies, morph) => {
+    const correctAnswer = vocabularies.filter(
+      (vocab) =>
+        String(vocab.area_id).toLowerCase() === String(vocab[morph]) ||
+        (vocab.area_id === "other" && null === vocab[morph])
+    ).length;
+
+    const score = (correctAnswer * 100) / vocabularies.length;
+
+    return score.toFixed(2);
+  };
+
+  const handleOnSubmit = () => {
+    const finalScore = calculateScore(vocabularies, data.morph.morph_list[0]);
+    if (finalScore == "100.00") {
+      alert(
+        `Your Score : ${finalScore} \n Congrats, you can contnue to the next lesson`
+      );
+    } else {
+      alert(`Your Score : ${finalScore} \n Please try again`);
+      setIsCheck(true);
+    }
+  };
+
+  const { id } = useParams();
+  const [vocabularies, setVocabularies] = useState([]);
+  const [isCheck, setIsCheck] = useState(false);
+
+  const { isLoading, isError, data, refetch } = useQuery({
+    queryFn: fetchMorphologiExam,
+    queryKey: ["morph-exam", id],
+    staleTime: Infinity,
+  });
+
+  if (isLoading) return <Loading />;
+  if (isError) return <Error onReload={refetch} />;
+
+  if (vocabularies.length === 0) {
+    setVocabularies(
+      data.dictionaries.map((dict, i) => ({ ...dict, id: i, area_id: i }))
+    );
+  }
+
+  return (
+    <div className="h-full overflow-y-scroll no-scrollbar">
+      <div className="flex flex-col items-center p-4 md:px-16">
+        <div>
+          <Label title={data.morph.title} />
+          {console.log("render-", data)}
+        </div>
+        <div className="w-full">
+          <p style={{ direction: "rtl" }} className="text-xl font-scheherazade">
+            {data.ayah.teksArab}
+          </p>
+          <hr className="mt-2 text-indigo-400" />
+        </div>
+        <DndContext onDragEnd={handleDragEnd}>
+          <div className="mt-2 w-full flex flex-row-reverse flex-wrap gap-1">
+            {data.dictionaries.map((_, i) => (
+              <DropArea
+                key={i}
+                area_id={i}
+                items={vocabularies.filter((v) => v.area_id === i)}
+                propertie={"arab"}
+              />
+            ))}
+          </div>
+          <div className="mt-8 flex gap-2">
+            {data.morph.classification.map((className) => (
+              <div
+                key={className}
+                className="p-2 border-indigo-400 border-2 flex flex-col items-center min-h-36 w-32">
+                <div>{className}</div>
+                <MultipleDropArea
+                  area_id={className}
+                  items={vocabularies.filter((v) => v.area_id === className)}
+                  propertie={"arab"}
+                  isCheck={isCheck}
+                  isCorrect={vocabularies
+                    .filter((v) => v.area_id === className)
+                    .map(
+                      (v) =>
+                        String(v.area_id).toLowerCase() ===
+                        String(v[data.morph.morph_list[0]]).toLowerCase()
+                    )}
+                />
+              </div>
+            ))}
+            <div className="p-2 border-indigo-400 border-2 flex flex-col items-center min-h-36 w-32">
+              <div>Lainnya</div>
+              <MultipleDropArea
+                area_id={"other"}
+                items={vocabularies.filter((v) => v.area_id === "other")}
+                propertie={"arab"}
+                isCheck={isCheck}
+                isCorrect={vocabularies
+                  .filter((v) => v.area_id === "other")
+                  .map((v) => null === v[data.morph.morph_list[0]])}
+              />
+            </div>
+          </div>
+        </DndContext>
+
+        <div className="text-right m-8 w-full">
+          <button
+            onClick={handleOnSubmit}
+            className="bg-indigo-600 px-4 py-2 text-white rounded-md shadow-xs hover:shadow-md hover:font-semibold shadow-slate-600 cursor-pointer">
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default MorphologiTest;

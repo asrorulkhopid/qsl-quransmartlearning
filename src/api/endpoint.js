@@ -1,11 +1,6 @@
-import { createClient } from "@supabase/supabase-js";
+import { supabase } from "../lib/supabase";
 import { axiosInstance } from "./axiosInstance";
 import { v4 as uuid } from "uuid";
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
 
 const fetchListSurah = async () => {
   const response = await axiosInstance.get("/surat");
@@ -20,6 +15,7 @@ const fetchSurah = async (id) => {
 export const fetchAyah = async (surah, ayah) => {
   const response = await axiosInstance.get(`/surat/${surah}`);
   const allAyah = response.data.data.ayat;
+  console.log(`fetching ${surah}-${ayah}`);
   return {
     ayah: allAyah[ayah - 1],
     isLastAyah: response.data.data.jumlahAyat == allAyah[ayah - 1].nomorAyat,
@@ -27,7 +23,7 @@ export const fetchAyah = async (surah, ayah) => {
 };
 
 const fetchVocabularies = async (surah, ayah) => {
-  const { data, error } = await supabase
+  const { data, error } = await supabase()
     .from("ayah_dictionary")
     .select("dictionaries")
     .eq("surah", surah)
@@ -37,7 +33,7 @@ const fetchVocabularies = async (surah, ayah) => {
   const dictionaryIds = data[0]?.dictionaries;
 
   if (dictionaryIds && dictionaryIds.length > 0) {
-    const { data: dictionaries, error: dictError } = await supabase
+    const { data: dictionaries, error: dictError } = await supabase()
       .from("dictionary")
       .select("*")
       .in("id", dictionaryIds);
@@ -52,7 +48,7 @@ const fetchVocabularies = async (surah, ayah) => {
 };
 
 const fetchLexiconExamData = async (surah, ayah) => {
-  const { data, error } = await supabase
+  const { data, error } = await supabase()
     .from("ayah_dictionary")
     .select("dictionaries")
     .eq("surah", surah)
@@ -62,9 +58,9 @@ const fetchLexiconExamData = async (surah, ayah) => {
   const dictionaryIds = data[0]?.dictionaries;
 
   if (dictionaryIds && dictionaryIds.length > 0) {
-    const { data: dictionaries, error: dictError } = await supabase
+    const { data: dictionaries, error: dictError } = await supabase()
       .from("dictionary")
-      .select("*")
+      .select("id, arab, indonesia")
       .in("id", dictionaryIds);
 
     if (dictError) throw dictError;
@@ -105,4 +101,86 @@ const fetchLexiconExamData = async (surah, ayah) => {
   }
 };
 
-export { fetchListSurah, fetchSurah, fetchVocabularies, fetchLexiconExamData };
+const fetchMorphologi = async ({ queryKey }) => {
+  const [_key, id] = queryKey;
+  const { data, error } = await supabase()
+    .from("morphologi")
+    .select()
+    .eq("id", id)
+    .single();
+
+  if (error) throw error;
+  return data;
+};
+
+const fetchMorphologiExam = async ({ queryKey }) => {
+  const [_key, id] = queryKey;
+
+  let isCorrectData = false;
+  let examData = null;
+
+  const { data, error } = await supabase()
+    .from("morphologi")
+    .select()
+    .eq("id", id)
+    .single();
+
+  if (error) throw error;
+
+  console.log("data", data);
+
+  examData = { morph: data };
+
+  while (!isCorrectData) {
+    const { data, error } = await supabase()
+      .from("random_ayah")
+      .select()
+      .limit(1)
+      .single();
+
+    if (error) throw error;
+
+    const { data: dictionaries, error: dictError } = await supabase()
+      .from("dictionary")
+      .select()
+      .in("id", data.dictionaries);
+
+    if (dictError) throw error;
+
+    const orderedDictionaries = data.dictionaries.map((id) =>
+      dictionaries.find((dict) => dict.id === id)
+    );
+
+    const isExist = dictionaries.some((dict) => dict.morf_4 != null);
+
+    if (isExist) {
+      let isError = true;
+
+      while (isError) {
+        try {
+          const ayah = await fetchAyah(data.surah, data.ayah);
+          examData = {
+            ...examData,
+            ayah: ayah.ayah,
+            dictionaries: orderedDictionaries,
+          };
+          isError = false;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      isCorrectData = true;
+    }
+  }
+
+  return examData;
+};
+
+export {
+  fetchListSurah,
+  fetchSurah,
+  fetchVocabularies,
+  fetchLexiconExamData,
+  fetchMorphologiExam,
+  fetchMorphologi,
+};

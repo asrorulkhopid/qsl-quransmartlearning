@@ -30,7 +30,12 @@ const Lexicon = () => {
 
   if (loadingVocabularies) return <Loading />;
   if (errorVocabulary)
-    return <Error message={"Something when wrong, please try again"} />;
+    return (
+      <Error
+        message={"Something when wrong, please try again"}
+        onReload={() => location.reload()}
+      />
+    );
 
   return (
     <div>

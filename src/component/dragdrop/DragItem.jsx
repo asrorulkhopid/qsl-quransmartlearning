@@ -1,7 +1,7 @@
 import { useDraggable } from "@dnd-kit/core";
 import React from "react";
 
-const DragItem = ({ item, isCheck }) => {
+const DragItem = ({ item, propertie, isCheck, isCorrect }) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: item.id,
   });
@@ -16,10 +16,10 @@ const DragItem = ({ item, isCheck }) => {
       {...listeners}
       {...attributes}
       style={{ ...style, touchAction: "none" }}
-      className={`p-1 border-2 rounded-sm border-indigo-400 cursor-pointer ${
-        isCheck && item.id != item.area_id ? "border-red-400" : ""
+      className={`p-1 border-2 rounded-sm border-indigo-400 cursor-pointer font-scheherazade text-center ${
+        isCheck && !isCorrect ? "border-red-400" : ""
       }`}>
-      {item.indonesia}
+      {item[propertie]}
     </div>
   );
 };

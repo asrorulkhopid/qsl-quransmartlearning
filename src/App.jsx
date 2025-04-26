@@ -21,6 +21,7 @@ function App() {
           <div className="grow flex flex-col overflow-hidden">
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/home" element={<Home />} />
               <Route path="/mushaf" element={<Mushaf />} />
               <Route path="/surah/:id" element={<Surah />} />
               <Route path="/learn/*" element={<Learn />} />
