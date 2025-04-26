@@ -106,11 +106,11 @@ const MorphologiTest = () => {
               />
             ))}
           </div>
-          <div className="mt-8 flex gap-2">
+          <div className="mt-8 flex flex-col w-full gap-2 items ">
             {data.morph.classification.map((className) => (
               <div
                 key={className}
-                className="p-2 border-indigo-400 border-2 flex flex-col items-center min-h-36 w-32">
+                className="p-2 border-indigo-400 border-2 flex flex-col items-center w-full">
                 <div>{className}</div>
                 <MultipleDropArea
                   area_id={className}
@@ -127,7 +127,7 @@ const MorphologiTest = () => {
                 />
               </div>
             ))}
-            <div className="p-2 border-indigo-400 border-2 flex flex-col items-center min-h-36 w-32">
+            <div className="p-2 border-indigo-400 border-2 flex flex-col items-center w-full">
               <div>Lainnya</div>
               <MultipleDropArea
                 area_id={"other"}

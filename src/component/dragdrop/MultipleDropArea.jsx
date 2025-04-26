@@ -12,7 +12,9 @@ const MultipleDropArea = ({
   const { setNodeRef } = useDroppable({ id: area_id });
 
   return (
-    <div className="w-full h-full flex flex-col gap-2" ref={setNodeRef}>
+    <div
+      className="w-full h-full flex justify-center flex-wrap gap-2 "
+      ref={setNodeRef}>
       {items?.length > 0 &&
         items.map((item, i) => (
           <DragItem
