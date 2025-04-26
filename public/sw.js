@@ -65,11 +65,7 @@ self.addEventListener("fetch", (event) => {
       return fetch(event.request)
         .then((networkResponse) => {
           // Cek kalau response valid
-          if (
-            !networkResponse ||
-            networkResponse.status !== 200 ||
-            networkResponse.type !== "basic"
-          ) {
+          if (!networkResponse || networkResponse.status !== 200) {
             return networkResponse;
           }
 
