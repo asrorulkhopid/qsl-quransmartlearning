@@ -51,27 +51,37 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  console.log(`[Service Worker] Fetching: ${event.request.url}`);
+  console.log(`[SW] Fetching: ${event.request.url}`);
 
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      const fetchPromise = fetch(event.request)
-        .then((networkResponse) => {
-          // Hanya simpan kalau responnya valid
-          if (networkResponse && networkResponse.status === 200) {
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, networkResponse.clone());
-            });
-          }
-          return networkResponse;
-        })
-        .catch((error) => {
-          console.error("[Service Worker] Fetch failed:", error);
-          // Kalau internet mati, biarkan cache yg diambil
-        });
+    caches
+      .match(event.request, { ignoreSearch: true })
+      .then((cachedResponse) => {
+        const fetchPromise = fetch(event.request)
+          .then((networkResponse) => {
+            // Cek apakah response valid dan status 200
+            if (networkResponse && networkResponse.status === 200) {
+              // Clone response sebelum dipakai untuk cache
+              const responseToCache = networkResponse.clone();
 
-      // Kalau ada cache, langsung balikin cache sambil fetch baru
-      return cachedResponse || fetchPromise;
-    })
+              // Simpan response ke cache
+              caches.open(CACHE_NAME).then((cache) => {
+                cache.put(event.request, responseToCache);
+              });
+            }
+            // Kembalikan response dari jaringan (untuk pengguna)
+            return networkResponse;
+          })
+          .catch((error) => {
+            console.error("[SW] Network request failed", error);
+            return new Response("Offline and not cached", {
+              status: 503,
+              statusText: "Service Unavailable",
+            });
+          });
+
+        // Jika ada cache, langsung kembalikan cache dulu, sambil fetch baru
+        return cachedResponse || fetchPromise;
+      })
   );
 });
