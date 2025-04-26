@@ -1,46 +1,86 @@
-const CACHE_NAME = "qsl-cache";
-self.addEventListener("install", (e) => {
-  console.log("Installing service worker!!");
-  e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(["/", "index.html"]).then(() => self.skipWaiting());
-    })
+const CACHE_NAME = "qsl-cache-v1";
+const FILES_TO_CACHE = [
+  "/",
+  "index.html",
+  // Tambahkan file lain yang PASTI ada, contoh gambar/logo
+  // "logo192.png",
+  // "logo512.png",
+];
+
+self.addEventListener("install", (event) => {
+  console.log("[Service Worker] Install");
+  event.waitUntil(
+    caches
+      .open(CACHE_NAME)
+      .then((cache) => {
+        console.log("[Service Worker] Caching app shell");
+        return cache.addAll(FILES_TO_CACHE);
+      })
+      .catch((error) => {
+        console.error(
+          "[Service Worker] Failed to cache during install:",
+          error
+        );
+      })
+      .then(() => self.skipWaiting())
   );
 });
 
-self.addEventListener("activate", (e) => {
-  console.log("activating service worker");
-  e.waitUntil(self.clients.claim());
+self.addEventListener("activate", (event) => {
+  console.log("[Service Worker] Activate");
+  event.waitUntil(
+    caches
+      .keys()
+      .then((cacheNames) => {
+        return Promise.all(
+          cacheNames.map((cacheName) => {
+            if (cacheName !== CACHE_NAME) {
+              console.log("[Service Worker] Deleting old cache:", cacheName);
+              return caches.delete(cacheName);
+            }
+          })
+        );
+      })
+      .then(() => self.clients.claim())
+  );
 });
 
-self.addEventListener("fetch", (e) => {
-  console.log(`fetching ${e.request.url}`);
+self.addEventListener("fetch", (event) => {
+  console.log(`[Service Worker] Fetching: ${event.request.url}`);
 
-  e.respondWith(
-    caches.match(e.request).then((cachedResponse) => {
+  event.respondWith(
+    caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
-        console.log(`Serving from cache ${e.request.url}`);
+        console.log(
+          `[Service Worker] Serving from cache: ${event.request.url}`
+        );
         return cachedResponse;
       }
 
-      return fetch(e.request)
-        .then((response) => {
+      return fetch(event.request)
+        .then((networkResponse) => {
+          // Cek kalau response valid
           if (
-            !response ||
-            response.status !== 200 ||
-            response.type !== "basic"
+            !networkResponse ||
+            networkResponse.status !== 200 ||
+            networkResponse.type !== "basic"
           ) {
-            return response;
+            return networkResponse;
           }
 
-          const responseToCache = response.clone();
+          // Clone dan simpan ke cache
+          const responseToCache = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => {
-            cache.put(e.request, responseToCache);
+            cache.put(event.request, responseToCache);
           });
-          return response;
+
+          return networkResponse;
         })
         .catch((error) => {
-          console.error(`Fetching failed: ${error}`);
+          console.error(
+            "[Service Worker] Fetch failed; returning offline page instead.",
+            error
+          );
           return new Response("Offline and resource not cached", {
             status: 503,
             statusText: "Service Unavailable",
