@@ -2,9 +2,14 @@ const CACHE_NAME = "qsl-cache-v1";
 const FILES_TO_CACHE = [
   "/",
   "index.html",
-  // Tambahkan file lain yang PASTI ada, contoh gambar/logo
-  // "logo192.png",
-  // "logo512.png",
+  "/asset/1.svg",
+  "/asset/2.svg",
+  "/asset/3.svg",
+  "/asset/4.svg",
+  "/asset/bg.jpg",
+  "/asset/label-l.svg",
+  "/asset/label-r.svg",
+  "logo.svg",
 ];
 
 self.addEventListener("install", (event) => {
