@@ -11,3 +11,16 @@
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker
+      .register("/sw.js", { scope: "/" })
+      .then(function (registeration) {
+        console.log("Service worker registered");
+      });
+    navigator.serviceWorker.ready.then(function (registeration) {
+      console.log("Service worker ready");
+    });
+  }
+</script>

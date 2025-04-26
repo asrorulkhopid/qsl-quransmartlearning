@@ -89,14 +89,14 @@ const MorphologiTest = () => {
           <Label title={data.morph.title} />
           {console.log("render-", data)}
         </div>
-        <div className="w-full">
+        <div className="w-full mt-4">
           <p style={{ direction: "rtl" }} className="text-xl font-scheherazade">
             {data.ayah.teksArab}
           </p>
           <hr className="mt-2 text-indigo-400" />
         </div>
         <DndContext onDragEnd={handleDragEnd}>
-          <div className="mt-2 w-full flex flex-row-reverse flex-wrap gap-1">
+          <div className="mt-2 w-full flex flex-row-reverse flex-wrap gap-2">
             {data.dictionaries.map((_, i) => (
               <DropArea
                 key={i}

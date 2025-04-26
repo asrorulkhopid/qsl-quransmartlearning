@@ -36,7 +36,8 @@ const Mushaf = () => {
           <Label title="Daftar Surah" />
         </div>
         <div className="mt-2 columns-1 sm:columns-2 lg:columns-3 gap-2">
-          {data?.data.map((surah) => (
+          {console.log("ini data", data)}
+          {data?.data?.map((surah) => (
             <div
               className="mb-2"
               key={surah.nomor}
