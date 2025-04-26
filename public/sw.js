@@ -55,38 +55,23 @@ self.addEventListener("fetch", (event) => {
 
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        console.log(
-          `[Service Worker] Serving from cache: ${event.request.url}`
-        );
-        return cachedResponse;
-      }
-
-      return fetch(event.request)
+      const fetchPromise = fetch(event.request)
         .then((networkResponse) => {
-          // Cek kalau response valid
-          if (!networkResponse || networkResponse.status !== 200) {
-            return networkResponse;
+          // Hanya simpan kalau responnya valid
+          if (networkResponse && networkResponse.status === 200) {
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, networkResponse.clone());
+            });
           }
-
-          // Clone dan simpan ke cache
-          const responseToCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
-          });
-
           return networkResponse;
         })
         .catch((error) => {
-          console.error(
-            "[Service Worker] Fetch failed; returning offline page instead.",
-            error
-          );
-          return new Response("Offline and resource not cached", {
-            status: 503,
-            statusText: "Service Unavailable",
-          });
+          console.error("[Service Worker] Fetch failed:", error);
+          // Kalau internet mati, biarkan cache yg diambil
         });
+
+      // Kalau ada cache, langsung balikin cache sambil fetch baru
+      return cachedResponse || fetchPromise;
     })
   );
 });
