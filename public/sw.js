@@ -57,31 +57,41 @@ self.addEventListener("fetch", (event) => {
     caches
       .match(event.request, { ignoreSearch: true })
       .then((cachedResponse) => {
-        const fetchPromise = fetch(event.request)
-          .then((networkResponse) => {
-            // Cek apakah response valid dan status 200
-            if (networkResponse && networkResponse.status === 200) {
-              // Clone response sebelum dipakai untuk cache
-              const responseToCache = networkResponse.clone();
+        // Jika response ditemukan di cache, langsung kembalikan dari cache
+        if (cachedResponse) {
+          console.log(`[SW] Serving from cache: ${event.request.url}`);
+          return cachedResponse;
+        }
 
-              // Simpan response ke cache
-              caches.open(CACHE_NAME).then((cache) => {
-                cache.put(event.request, responseToCache);
-              });
+        // Jika response tidak ada di cache, lakukan fetch
+        return fetch(event.request)
+          .then((networkResponse) => {
+            // Cek jika response valid
+            if (
+              !networkResponse ||
+              networkResponse.status !== 200 ||
+              networkResponse.type !== "basic"
+            ) {
+              return networkResponse; // Jika tidak valid, langsung kembalikan response dari jaringan
             }
-            // Kembalikan response dari jaringan (untuk pengguna)
-            return networkResponse;
+
+            // Clone response agar bisa disimpan di cache dan dikirim ke pengguna
+            const responseToCache = networkResponse.clone();
+
+            // Simpan response yang valid ke cache
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, responseToCache);
+            });
+
+            return networkResponse; // Kembalikan response ke pengguna
           })
           .catch((error) => {
             console.error("[SW] Network request failed", error);
-            return new Response("Offline and not cached", {
+            return new Response("Offline and resource not cached", {
               status: 503,
               statusText: "Service Unavailable",
             });
           });
-
-        // Jika ada cache, langsung kembalikan cache dulu, sambil fetch baru
-        return cachedResponse || fetchPromise;
       })
   );
 });
