@@ -51,47 +51,42 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  console.log(`[SW] Fetching: ${event.request.url}`);
+  console.log(`[Service Worker] Fetching: ${event.request.url}`);
 
   event.respondWith(
-    caches
-      .match(event.request, { ignoreSearch: true })
-      .then((cachedResponse) => {
-        // Jika response ditemukan di cache, langsung kembalikan dari cache
-        if (cachedResponse) {
-          console.log(`[SW] Serving from cache: ${event.request.url}`);
-          return cachedResponse;
-        }
+    caches.match(event.request).then((cachedResponse) => {
+      if (cachedResponse) {
+        console.log(
+          `[Service Worker] Serving from cache: ${event.request.url}`
+        );
+        return cachedResponse;
+      }
 
-        // Jika response tidak ada di cache, lakukan fetch
-        return fetch(event.request)
-          .then((networkResponse) => {
-            // Cek jika response valid
-            if (
-              !networkResponse ||
-              networkResponse.status !== 200 ||
-              networkResponse.type !== "basic"
-            ) {
-              return networkResponse; // Jika tidak valid, langsung kembalikan response dari jaringan
-            }
+      return fetch(event.request)
+        .then((networkResponse) => {
+          // Cek kalau response valid
+          if (!networkResponse || networkResponse.status !== 200) {
+            return networkResponse;
+          }
 
-            // Clone response agar bisa disimpan di cache dan dikirim ke pengguna
-            const responseToCache = networkResponse.clone();
-
-            // Simpan response yang valid ke cache
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, responseToCache);
-            });
-
-            return networkResponse; // Kembalikan response ke pengguna
-          })
-          .catch((error) => {
-            console.error("[SW] Network request failed", error);
-            return new Response("Offline and resource not cached", {
-              status: 503,
-              statusText: "Service Unavailable",
-            });
+          // Clone dan simpan ke cache
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
           });
-      })
+
+          return networkResponse;
+        })
+        .catch((error) => {
+          console.error(
+            "[Service Worker] Fetch failed; returning offline page instead.",
+            error
+          );
+          return new Response("Offline and resource not cached", {
+            status: 503,
+            statusText: "Service Unavailable",
+          });
+        });
+    })
   );
 });
