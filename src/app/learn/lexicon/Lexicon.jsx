@@ -1,11 +1,12 @@
 import React from "react";
-import Label from "../../../label/Label";
-import Vocabulary from "../../../vocabulary/Vocabulary";
+import Label from "../../../component/label/Label";
+import Vocabulary from "../../../component/vocabulary/Vocabulary";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { fetchAyah, fetchVocabularies } from "../../../../api/endpoint";
-import Loading from "../../../loading/Loading";
-import Error from "../../../error/Error";
+import { fetchAyah, fetchVocabularies } from "../../../api/endpoint";
+import Loading from "../../../component/loading/Loading";
+import Error from "../../../component/error/Error";
+import Divider from "../../../component/divider/Divider";
 const Lexicon = () => {
   const { ayah, surah } = useParams();
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ const Lexicon = () => {
 
   return (
     <div>
-      <div className="flex flex-col px-4 md:px-16">
+      <div className="flex flex-col px-4 md:px-16 text-on-secondary">
         <div className="self-center mt-2">
           <Label title={`Lexicon [ ${surah}:${ayah} ]`} />
         </div>
@@ -50,10 +51,10 @@ const Lexicon = () => {
               className="text-xl font-scheherazade">
               {ayahData?.ayah.teksArab}
             </p>
-            <hr className="mt-2 text-indigo-400" />
+            <Divider />
           </div>
           <div className="mt-2">
-            <p className="font-semibold text-gray-600">
+            <p className="font-semibold ">
               Terdiri dari {ayahData?.length} kata :
             </p>
             <div className="mt-2 flex flex-row-reverse flex-wrap gap-1">
@@ -65,19 +66,19 @@ const Lexicon = () => {
                 />
               ))}
             </div>
-            <hr className="mt-2 text-indigo-400" />
+            <Divider />
           </div>
           <div className="mt-2">
-            <p className="font-semibold text-gray-600">Terjemah indah : </p>
-            <p className="text-right mt-2 italic text-slate-600">
+            <p className="font-semibold">Terjemah indah : </p>
+            <p className="text-right mt-2 italic">
               {ayahData?.ayah.teksIndonesia}
             </p>
-            <hr className="mt-2 text-indigo-400" />
+            <Divider />
           </div>
           <div className="text-right mt-8">
             <button
               onClick={() => navigate("exam")}
-              className="bg-indigo-600 px-4 py-2 text-white rounded-md shadow-xs hover:shadow-md hover:font-semibold shadow-slate-600 cursor-pointer">
+              className="bg-accent px-4 py-2 text-surface rounded-md shadow-xs hover:shadow-md hover:font-semibold shadow-accent cursor-pointer">
               Mark as Done
             </button>
           </div>

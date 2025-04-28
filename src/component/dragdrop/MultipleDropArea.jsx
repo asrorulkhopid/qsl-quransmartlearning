@@ -24,7 +24,9 @@ const MultipleDropArea = ({
             isCorrect={isCorrect[i]}
           />
         ))}
-      <p className="m-1 text-slate-400 self-center">Drop Here</p>
+      <p className="m-1 text-secondary-variant opacity-50 self-center">
+        Drop Here
+      </p>
     </div>
   );
 };

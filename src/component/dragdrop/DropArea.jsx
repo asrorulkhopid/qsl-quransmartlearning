@@ -7,7 +7,7 @@ const DropArea = ({ area_id, items, propertie, isCheck, isCorrect }) => {
 
   return (
     <div
-      className={`border-1 rounded-sm border-indigo-400 border-dashed min-h-8 ${
+      className={`border-1 rounded-sm border-secondary border-dashed min-h-8 ${
         items?.length === 1 && isCheck && items[0]?.id != area_id
           ? "border-red-500"
           : ""
@@ -24,7 +24,7 @@ const DropArea = ({ area_id, items, propertie, isCheck, isCorrect }) => {
           />
         ))
       ) : (
-        <p className="m-1 text-slate-400">Drop Here</p>
+        <p className="m-1 text-secondary-variant">Drop Here</p>
       )}
     </div>
   );

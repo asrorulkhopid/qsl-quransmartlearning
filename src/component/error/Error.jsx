@@ -6,7 +6,7 @@ const Error = ({ message, onReload }) => {
       <p>{message}</p>
       <button
         onClick={() => onReload()}
-        className="p-2 mt-2 text-white rounded-md bg-indigo-900 hover:shadow-md shadow-slate-600 cursor-pointer">
+        className="p-2 mt-2 text-surface rounded-md bg-accent hover:shadow-md shadow-accent cursor-pointer">
         Reload page
       </button>
     </div>

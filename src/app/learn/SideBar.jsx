@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
-import { fetchListSurah } from "../../../api/endpoint";
+import { fetchListSurah } from "../../api/endpoint";
 import { useNavigate } from "react-router-dom";
-import Utils from "../../../utils/Utils";
-import Loading from "../../loading/Loading";
-import Error from "../../error/Error";
+import Utils from "../../utils/Utils";
+import Loading from "../../component/loading/Loading";
+import Error from "../../component/error/Error";
 
 const menus = [
   {
@@ -53,7 +53,7 @@ const SideBar = ({ setIsCollapse }) => {
                     e.stopPropagation();
                     setExpandedSurah((prev) => (prev === surah ? null : surah));
                   }}
-                  className="p-1 hover:bg-slate-300 cursor-pointer">
+                  className="p-1 hover:bg-primary cursor-pointer">
                   {surah.namaLatin}
                 </li>
                 {expanddedSurah === surah && (
@@ -70,7 +70,7 @@ const SideBar = ({ setIsCollapse }) => {
                           if (Utils.isUnderScreenWidth(640))
                             setIsCollapse(true);
                         }}
-                        className="py-1.5 hover:text-indigo-300 cursor-pointer">{`Ayat : ${ayahNumber}`}</li>
+                        className="py-1.5 hover:text-primary cursor-pointer">{`Ayat : ${ayahNumber}`}</li>
                     ))}
                   </ul>
                 )}
@@ -91,7 +91,7 @@ const SideBar = ({ setIsCollapse }) => {
                   handleNavigate("morphologi", menu.id);
                   if (Utils.isUnderScreenWidth(640)) setIsCollapse(true);
                 }}
-                className="p-1 hover:bg-slate-300 cursor-pointer">
+                className="p-1 hover:bg-primary cursor-pointer">
                 {menu.name}
               </li>
             ))}
@@ -109,7 +109,7 @@ const SideBar = ({ setIsCollapse }) => {
                   handleNavigate("phrase", menu.id);
                   if (Utils.isUnderScreenWidth(640)) setIsCollapse(true);
                 }}
-                className="p-1 hover:bg-slate-300 cursor-pointer">
+                className="p-1 hover:bg-primary cursor-pointer">
                 {menu.name}
               </li>
             ))}
@@ -142,7 +142,7 @@ const SideBar = ({ setIsCollapse }) => {
   const [expandedSurah, setExpandedSurah] = useState(null);
 
   return (
-    <div className="h-full bg-gradient-to-l from-slate-200 to-white overflow-y-scroll no-scrollbar text-slate-800">
+    <div className="h-full bg-secondary overflow-y-scroll no-scrollbar text-on-secondary">
       {isLoading && <Loading />}
       {isError && <Error message={"Try Again"} onReload={refetch} />}
       {!isLoading && !isError && (
@@ -154,7 +154,7 @@ const SideBar = ({ setIsCollapse }) => {
                   e.stopPropagation();
                   setExpandedMenu((prev) => (prev === menu ? null : menu));
                 }}
-                className="p-1 bg-slate-400 flex flex-col items-stretch cursor-pointer hover:bg-slate-500 font-medium">
+                className="p-1 border-l-2 border-secondary-variant flex flex-col items-stretch cursor-pointer hover:bg-secondary-variant font-medium">
                 <div className="p-1">{menu.name}</div>
               </li>
               {expandedMenu === menu &&

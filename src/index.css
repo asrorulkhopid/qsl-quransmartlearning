@@ -3,6 +3,23 @@
 
 @theme {
   --font-scheherazade: "Scheherazade New", sans-serif;
+  --color-background: #f4f4f4; /* Latar belakang utama abu-abu terang */
+  --color-surface: #ffffff; /* Konten, card, dsb */
+
+  --color-primary: #2e7d32; /* Hijau stabil untuk header */
+  --color-primary-variant: #4caf50; /* Hijau sedikit lebih cerah untuk hover/header highlight */
+
+  --color-on-primary: #ffffff; /* Teks putih di atas primary */
+
+  --color-secondary: #81c784; /* Hijau muda untuk sidebar/menu atau section */
+  --color-secondary-variant: #a5d6a7; /* Versi lebih soft untuk hover */
+
+  --color-on-secondary: #0e3d18; /* Teks gelap di atas secondary (biar tetap kebaca) */
+
+  --color-accent: #283593; /* Hijau pastel untuk badge, background ringan, atau tombol aksen kecil */
+
+  --color-error: #e53935; /* Merah sedikit gelap untuk error */
+  --color-on-error: #ffffff; /* Teks putih pada error */
 }
 
 @layer utilities {

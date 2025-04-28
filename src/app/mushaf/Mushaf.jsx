@@ -1,11 +1,10 @@
-import React from "react";
-import ItemSurah from "./ItemSurah";
 import { useQuery } from "@tanstack/react-query";
-import { fetchListSurah } from "../../../api/endpoint";
-import Label from "../../label/Label";
 import { useNavigate } from "react-router-dom";
-import Loading from "../../loading/Loading";
-import Error from "../../error/Error";
+import { fetchListSurah } from "../../api/endpoint";
+import Loading from "../../component/loading/Loading";
+import Error from "../../component/error/Error";
+import Label from "../../component/label/Label";
+import ItemSurah from "./ItemSurah";
 
 const Mushaf = () => {
   const navigate = useNavigate();

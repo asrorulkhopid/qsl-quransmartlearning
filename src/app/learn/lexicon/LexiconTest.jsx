@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchAyah, fetchLexiconExamData } from "../../../../api/endpoint";
-import Label from "../../../label/Label";
-import DropArea from "../../../dragdrop/DropArea";
+import { fetchAyah, fetchLexiconExamData } from "../../../api/endpoint";
+import Label from "../../../component/label/Label";
+import DropArea from "../../../component/dragdrop/DropArea";
 import { DndContext } from "@dnd-kit/core";
-import Loading from "../../../loading/Loading";
-import Error from "../../../error/Error";
+import Loading from "../../../component/loading/Loading";
+import Error from "../../../component/error/Error";
+import Divider from "../../../component/divider/Divider";
 
 const LexiconTest = () => {
   const handleCheckBoxChange = (vocab) => {
@@ -144,7 +145,7 @@ const LexiconTest = () => {
     );
 
   return (
-    <div className="h-full overflow-y-scroll no-scrollbar pb-4">
+    <div className="h-full overflow-y-scroll no-scrollbar pb-4 text-on-secondary">
       <div className="flex flex-col px-4 md:px-16">
         <div className="self-center mt-2">
           <Label title={`Lexicon [ ${surah}:${ayah} ]`} />
@@ -156,22 +157,22 @@ const LexiconTest = () => {
               className="text-xl font-scheherazade">
               {ayahData?.ayah.teksArab}
             </p>
-            <hr className="mt-2 text-indigo-400" />
+            <Divider />
           </div>
           <div className="mt-2">
             <div className="flex gap-2 items-center">
-              <p className="font-semibold text-gray-600">Jumlah Kata :</p>
+              <p className="font-semibold">Jumlah Kata :</p>
               <input
                 type="number"
                 min={0}
                 max={lexiconExamData?.length}
                 value={vocabCount}
-                className={`border w-16 p-2 ${
+                className={`border w-16 p-2 focus:outline-primary ${
                   isCheck &&
                   vocabCount !=
                     lexiconExamData.filter((vocab) => vocab.isIncluded).length
-                    ? "border-red-500"
-                    : "border-slate-400"
+                    ? "border-error"
+                    : "border-secondary-variant"
                 }`}
                 onChange={(e) => {
                   setIsCheck(false);
@@ -179,14 +180,14 @@ const LexiconTest = () => {
                 }}
               />
             </div>
-            <p className="mt-4 font-semibold text-gray-600">
+            <p className="mt-4 font-semibold">
               Pilih {vocabCount} kata ({selectedVocab.length} dipilih)
             </p>
             <div className="mt-2 flex flex-row-reverse flex-wrap gap-1 font-scheherazade text-xl">
               {lexiconExamData?.map((vocab) => (
                 <div
                   key={vocab.id}
-                  className={`flex items-center border-2 border-indigo-400 gap-2 rounded-sm p-2 cursor-pointer ${
+                  className={`flex items-center border-2 border-secondary accent-primary gap-2 rounded-sm p-2 cursor-pointer ${
                     isCheck &&
                     ((vocab.isIncluded &&
                       !selectedVocab.some((v) => v.id === vocab.id)) ||
@@ -214,17 +215,15 @@ const LexiconTest = () => {
                 </div>
               ))}
             </div>
-            <hr className="mt-2 text-indigo-400" />
+            <Divider />
           </div>
           <div className="mt-2">
-            <p className="mt-4 font-semibold text-gray-600">
-              Pilih terjemahan yang tepat
-            </p>
+            <p className="mt-4 font-semibold">Pilih terjemahan yang tepat</p>
             <DndContext onDragEnd={handleDragEnd}>
               <div className="mt-2 flex flex-row-reverse flex-wrap gap-1  text-xl">
                 {translationData?.map((vocab) => (
                   <div key={vocab.id} className="flex flex-col gap-1">
-                    <div className="p-1 border-indigo-400 border-2 rounded-xs text-center font-scheherazade">
+                    <div className="p-1 border-secondary border-2 rounded-xs text-center font-scheherazade">
                       {vocab.arab}
                     </div>
                     <DropArea
@@ -246,7 +245,7 @@ const LexiconTest = () => {
                 ))}
               </div>
 
-              <div className="mt-2 p-2 flex flex-row-reverse flex-wrap gap-1 font-serif text-xl bg-indigo-100">
+              <div className="mt-2 p-2 flex flex-row-reverse flex-wrap gap-1 font-serif text-xl bg-secondary-variant/20">
                 {shuffledTranslation?.map((filteredVocab) => (
                   <DropArea
                     key={filteredVocab.id}
@@ -261,20 +260,20 @@ const LexiconTest = () => {
                 ))}
               </div>
             </DndContext>
-            <hr className="mt-2 text-indigo-400" />
+            <Divider />
           </div>
 
           <div className="mt-2">
-            <p className="font-semibold text-gray-600">Terjemah indah : </p>
-            <p className="text-right mt-2 italic text-slate-600">
+            <p className="font-semibold text-on-secondary">Terjemah indah : </p>
+            <p className="text-right mt-2 italic text-on-secondary">
               {ayahData?.ayah.teksIndonesia}
             </p>
-            <hr className="mt-2 text-indigo-400" />
+            <Divider />
           </div>
           <div className="text-right mt-8">
             <button
               onClick={handleOnSubmit}
-              className="bg-indigo-600 px-4 py-2 text-white rounded-md shadow-xs hover:shadow-md hover:font-semibold shadow-slate-600 cursor-pointer">
+              className="bg-accent px-4 py-2 text-surface rounded-md shadow-xs hover:shadow-md hover:font-semibold shadow-accent cursor-pointer">
               Submit
             </button>
           </div>

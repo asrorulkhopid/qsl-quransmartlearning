@@ -13,12 +13,12 @@ const FILES_TO_CACHE = [
 ];
 
 self.addEventListener("install", (event) => {
-  console.log("[Service Worker] Install");
+  // console.log("[Service Worker] Install");
   event.waitUntil(
     caches
       .open(CACHE_NAME)
       .then((cache) => {
-        console.log("[Service Worker] Caching app shell");
+        // console.log("[Service Worker] Caching app shell");
         return cache.addAll(FILES_TO_CACHE);
       })
       .catch((error) => {
@@ -32,7 +32,7 @@ self.addEventListener("install", (event) => {
 });
 
 self.addEventListener("activate", (event) => {
-  console.log("[Service Worker] Activate");
+  // console.log("[Service Worker] Activate");
   event.waitUntil(
     caches
       .keys()
@@ -40,7 +40,7 @@ self.addEventListener("activate", (event) => {
         return Promise.all(
           cacheNames.map((cacheName) => {
             if (cacheName !== CACHE_NAME) {
-              console.log("[Service Worker] Deleting old cache:", cacheName);
+              // console.log("[Service Worker] Deleting old cache:", cacheName);
               return caches.delete(cacheName);
             }
           })
@@ -51,42 +51,35 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  console.log(`[Service Worker] Fetching: ${event.request.url}`);
-
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        console.log(
-          `[Service Worker] Serving from cache: ${event.request.url}`
-        );
-        return cachedResponse;
-      }
+    fetch(event.request)
+      .then((networkResponse) => {
+        // Cek kalau response valid
+        if (!networkResponse || networkResponse.status !== 200) {
+          return networkResponse;
+        }
 
-      return fetch(event.request)
-        .then((networkResponse) => {
-          // Cek kalau response valid
-          if (!networkResponse || networkResponse.status !== 200) {
-            return networkResponse;
+        // Clone dan simpan response ke cache
+        const responseToCache = networkResponse.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, responseToCache);
+        });
+
+        return networkResponse;
+      })
+      .catch(() => {
+        // Kalau fetch gagal (offline), coba ambil dari cache
+        return caches.match(event.request).then((cachedResponse) => {
+          if (cachedResponse) {
+            return cachedResponse;
           }
 
-          // Clone dan simpan ke cache
-          const responseToCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
-          });
-
-          return networkResponse;
-        })
-        .catch((error) => {
-          console.error(
-            "[Service Worker] Fetch failed; returning offline page instead.",
-            error
-          );
+          // Kalau cache juga gak ada, balikin fallback response
           return new Response("Offline and resource not cached", {
             status: 503,
             statusText: "Service Unavailable",
           });
         });
-    })
+      })
   );
 });

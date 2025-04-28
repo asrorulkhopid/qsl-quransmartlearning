@@ -32,7 +32,7 @@ const NavBar = () => {
   }
 
   return (
-    <div className="bg-gradient-to-r from-slate-900 to-slate-700 text-white px-4 sm:px-12 py-2 flex justify-between items-center ">
+    <div className="bg-primary text-on-primary shadow-sm shadow-primary-variant px-4 sm:px-12 py-2 flex justify-between items-center ">
       <div>
         <a href="/" className="font-bold text-3xl sm:text-3xl">
           Q-SL
@@ -46,7 +46,7 @@ const NavBar = () => {
         </div>
         <div>
           <ul
-            className={`bg-slate-600 sm:bg-transparent -mr-2 p-2 flex gap-2 flex-col sm:flex-row absolute sm:relative top-9 sm:top-0 ${
+            className={` rounded-bl-md bg-primary-variant sm:bg-transparent -mr-2 p-2 flex gap-2 flex-col sm:flex-row absolute sm:relative top-10.5 sm:top-0 ${
               isCollapse ? "-right-40 sm:right-0 hidden sm:flex" : "-right-2"
             }`}>
             {menus.map((menu) => (

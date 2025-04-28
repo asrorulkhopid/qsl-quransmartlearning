@@ -1,5 +1,5 @@
 export default class Utils {
-  static covertLatinNumbertoArabic = (latinNumber) => {
+  static convertLatinNumbertoArabic = (latinNumber) => {
     const arabicNumbers = `۰۱۲۳٤۵٦۷۸۹`;
     let result = "";
     for (const char of latinNumber.toString()) {

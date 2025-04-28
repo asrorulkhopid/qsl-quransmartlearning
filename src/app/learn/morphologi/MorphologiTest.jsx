@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
-import { fetchMorphologiExam } from "../../../../api/endpoint";
-import Loading from "../../../loading/Loading";
-import Error from "../../../error/Error";
-import Label from "../../../label/Label";
+import { fetchMorphologiExam } from "../../../api/endpoint";
+import Loading from "../../../component/loading/Loading";
+import Error from "../../../component/error/Error";
+import Label from "../../../component/label/Label";
 import { useParams } from "react-router-dom";
-import Vocabulary from "../../../vocabulary/Vocabulary";
-import DropArea from "../../../dragdrop/DropArea";
+import DropArea from "../../../component/dragdrop/DropArea";
 import { DndContext } from "@dnd-kit/core";
-import MultipleDropArea from "../../../dragdrop/MultipleDropArea";
+import MultipleDropArea from "../../../component/dragdrop/MultipleDropArea";
+import Divider from "../../../component/divider/Divider";
 
 const MorphologiTest = () => {
   const handleDragEnd = (event) => {
@@ -93,7 +93,7 @@ const MorphologiTest = () => {
           <p style={{ direction: "rtl" }} className="text-xl font-scheherazade">
             {data.ayah.teksArab}
           </p>
-          <hr className="mt-2 text-indigo-400" />
+          <Divider />
         </div>
         <DndContext onDragEnd={handleDragEnd}>
           <div className="mt-2 w-full flex flex-row-reverse flex-wrap gap-2">
@@ -110,7 +110,7 @@ const MorphologiTest = () => {
             {data.morph.classification.map((className) => (
               <div
                 key={className}
-                className="p-2 border-indigo-400 border-2 flex flex-col items-center w-full">
+                className="p-2 border-secondary border-2 flex flex-col items-center w-full">
                 <div>{className}</div>
                 <MultipleDropArea
                   area_id={className}
@@ -127,7 +127,7 @@ const MorphologiTest = () => {
                 />
               </div>
             ))}
-            <div className="p-2 border-indigo-400 border-2 flex flex-col items-center w-full">
+            <div className="p-2 border-secondary border-2 flex flex-col items-center w-full">
               <div>Lainnya</div>
               <MultipleDropArea
                 area_id={"other"}
@@ -145,7 +145,7 @@ const MorphologiTest = () => {
         <div className="text-right m-8 w-full">
           <button
             onClick={handleOnSubmit}
-            className="bg-indigo-600 px-4 py-2 text-white rounded-md shadow-xs hover:shadow-md hover:font-semibold shadow-slate-600 cursor-pointer">
+            className="bg-accent px-4 py-2 text-surface rounded-md shadow-xs hover:shadow-md hover:font-semibold shadow-accent cursor-pointer">
             Submit
           </button>
         </div>

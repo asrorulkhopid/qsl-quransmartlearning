@@ -4,7 +4,7 @@ import { CgChevronDoubleLeft, CgChevronDoubleRight } from "react-icons/cg";
 import { Route, Routes } from "react-router-dom";
 import Lexicon from "./lexicon/Lexicon";
 import LexiconTest from "./lexicon/LexiconTest";
-import Utils from "../../../utils/Utils";
+import Utils from "../../utils/Utils";
 import Morphologi from "./morphologi/Morphologi";
 import MorphologiTest from "./morphologi/MorphologiTest";
 
@@ -32,7 +32,7 @@ const Learn = () => {
               e.stopPropagation();
               setIsCollapse(!isCollapse);
             }}
-            className="absolute sm:hidden top-1/2 -left-1 rounded-xs h-8 w-6 text-white bg-slate-900 shadow-md shadow-white flex items-center justify-center animate-pulse">
+            className="absolute sm:hidden top-1/2 -left-1 rounded-xs h-8 w-6 text-on-primary bg-primary shadow-md shadow-primary flex items-center justify-center animate-pulse">
             {isCollapse ? <CgChevronDoubleRight /> : <CgChevronDoubleLeft />}
           </div>
         </div>

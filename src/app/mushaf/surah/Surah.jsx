@@ -1,11 +1,10 @@
 import React, { useRef, useState } from "react";
-import Label from "../../../label/Label";
+import Label from "../../../component/label/Label";
+import Verse from "../../../component/verse/Verse";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import ItemAyat from "./ItemAyat";
-import Utils from "../../../../utils/Utils";
 import ReactAudioPlayer from "react-audio-player";
-import { fetchSurah } from "../../../../api/endpoint";
+import { fetchSurah } from "../../../api/endpoint";
 
 const Surah = () => {
   const { id } = useParams();
@@ -64,16 +63,12 @@ const Surah = () => {
         </div>
         <div>
           {data?.data.ayat.map((ayat) => (
-            <ItemAyat
-              key={ayat.nomorAyat}
-              number={Utils.covertLatinNumbertoArabic(ayat.nomorAyat)}
-              ayat={ayat.teksArab}
-              teksLatin={ayat.teksLatin}
+            <Verse
+              verse={ayat}
               isPlaying={currentAyah?.ayahNumber == ayat.nomorAyat && isPlaying}
               onPlayPause={() =>
                 handlePlayPause(ayat.nomorAyat, ayat.audio["05"])
               }
-              translation={ayat.teksIndonesia}
             />
           ))}
         </div>
