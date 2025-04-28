@@ -18,7 +18,7 @@ const Banner = ({ images }) => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="relative w-11/12 h-52 sm:w-10/12 sm:h-80 md:w-8/12 lg:w-6/12 overflow-hidden rounded-xl bg-secondary-variant">
+      <div className="relative w-11/12 h-64 sm:w-10/12 sm:h-80 md:w-8/12 lg:w-6/12 overflow-hidden rounded-xl bg-secondary-variant">
         <div
           className="flex transition-transform duration-700 ease-in-out h-full"
           style={{ transform: `translateX(-${activeIndex * 100}%)` }}>
