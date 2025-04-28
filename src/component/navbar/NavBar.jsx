@@ -19,8 +19,8 @@ const NavBar = () => {
       link: "/learn",
     },
     {
-      name: "Guidance",
-      link: "/guidance",
+      name: "User Feedback",
+      link: "/feedback",
     },
   ];
 

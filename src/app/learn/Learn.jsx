@@ -7,6 +7,7 @@ import LexiconTest from "./lexicon/LexiconTest";
 import Utils from "../../utils/Utils";
 import Morphologi from "./morphologi/Morphologi";
 import MorphologiTest from "./morphologi/MorphologiTest";
+import Phrase from "./phrase/Phrase";
 
 const Learn = () => {
   const [isCollapse, setIsCollapse] = useState(
@@ -46,6 +47,7 @@ const Learn = () => {
               />
               <Route path="morphologi/:id/" element={<Morphologi />} />
               <Route path="morphologi/:id/exam" element={<MorphologiTest />} />
+              <Route path="phrase/:id/" element={<Phrase />} />
             </Routes>
           </div>
         </div>

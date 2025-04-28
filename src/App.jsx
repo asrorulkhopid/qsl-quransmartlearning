@@ -25,7 +25,7 @@ function App() {
               <Route path="/mushaf" element={<Mushaf />} />
               <Route path="/surah/:id" element={<Surah />} />
               <Route path="/learn/*" element={<Learn />} />
-              <Route path="/guidance" element={<Guidance />} />
+              <Route path="/feedback" element={<Guidance />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>

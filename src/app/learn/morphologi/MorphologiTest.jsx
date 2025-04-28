@@ -4,7 +4,7 @@ import { fetchMorphologiExam } from "../../../api/endpoint";
 import Loading from "../../../component/loading/Loading";
 import Error from "../../../component/error/Error";
 import Label from "../../../component/label/Label";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import DropArea from "../../../component/dragdrop/DropArea";
 import { DndContext } from "@dnd-kit/core";
 import MultipleDropArea from "../../../component/dragdrop/MultipleDropArea";
@@ -58,6 +58,7 @@ const MorphologiTest = () => {
       alert(
         `Your Score : ${finalScore} \n Congrats, you can contnue to the next lesson`
       );
+      if (id < 3) navigate(`/learn/morphologi/${parseInt(id) + 1}`);
     } else {
       alert(`Your Score : ${finalScore} \n Please try again`);
       setIsCheck(true);
@@ -65,6 +66,7 @@ const MorphologiTest = () => {
   };
 
   const { id } = useParams();
+  const navigate = useNavigate();
   const [vocabularies, setVocabularies] = useState([]);
   const [isCheck, setIsCheck] = useState(false);
 
