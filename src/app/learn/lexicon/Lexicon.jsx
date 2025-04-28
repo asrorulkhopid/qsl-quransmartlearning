@@ -55,7 +55,7 @@ const Lexicon = () => {
             <Divider />
           </div>
           <div className="mt-2">
-            <p className="font-semibold ">
+            <p className="font-semibold text-on-secondary/70">
               Terdiri dari {ayahData?.length} kata :
             </p>
             <div className="mt-2 flex flex-row-reverse flex-wrap gap-1">
@@ -70,7 +70,9 @@ const Lexicon = () => {
             <Divider />
           </div>
           <div className="mt-2">
-            <p className="font-semibold">Terjemah indah : </p>
+            <p className="font-semibold text-on-secondary/70">
+              Terjemah indah :{" "}
+            </p>
             <p className="text-right mt-2 italic">
               {ayahData?.ayah.teksIndonesia}
             </p>

@@ -24,7 +24,7 @@ const DropArea = ({ area_id, items, propertie, isCheck, isCorrect }) => {
           />
         ))
       ) : (
-        <p className="m-1 text-secondary-variant">Drop Here</p>
+        <p className="m-1 text-secondary-variant/20">Drop Here</p>
       )}
     </div>
   );

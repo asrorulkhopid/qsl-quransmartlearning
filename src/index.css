@@ -5,7 +5,7 @@
 @theme {
   --font-scheherazade: "Scheherazade New", sans-serif;
   --font-gulzar: "Gulzar", sans-serif;
-  --color-background: #99b7bb;
+  --color-background: #5a989b;
   --color-surface: #5b8c8e;
 
   --color-primary: #07484b;
@@ -14,7 +14,7 @@
 
   --color-secondary: #1d5f65;
   --color-secondary-variant: #396a6f;
-  --color-on-secondary: #000000;
+  --color-on-secondary: #e3f6f8;
 
   --color-accent: #085795;
 

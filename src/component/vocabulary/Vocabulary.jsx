@@ -7,6 +7,7 @@ const Vocabulary = ({ arabic, indonesia }) => {
         <p> {arabic} </p>
       </div>
       <div className="font-sans font-normal text-on-secondary">
+        <hr className="text-on-secondary mt-2" />
         <p> {indonesia} </p>
       </div>
     </div>

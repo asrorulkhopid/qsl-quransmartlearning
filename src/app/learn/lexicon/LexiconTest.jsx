@@ -161,7 +161,7 @@ const LexiconTest = () => {
             <Divider />
           </div>
           <div className="mt-2">
-            <div className="flex gap-2 items-center">
+            <div className="flex gap-2 items-center text-on-secondary/70">
               <p className="font-semibold">Jumlah Kata :</p>
               <input
                 type="number"
@@ -181,7 +181,7 @@ const LexiconTest = () => {
                 }}
               />
             </div>
-            <p className="mt-4 font-semibold">
+            <p className="mt-4 font-semibold text-on-secondary/70">
               Pilih {vocabCount} kata ({selectedVocab.length} dipilih)
             </p>
             <div className="mt-2 flex flex-row-reverse flex-wrap gap-1 font-scheherazade text-xl">
@@ -219,7 +219,9 @@ const LexiconTest = () => {
             <Divider />
           </div>
           <div className="mt-2">
-            <p className="mt-4 font-semibold">Pilih terjemahan yang tepat</p>
+            <p className="mt-4 font-semibold text-on-secondary/70">
+              Pilih terjemahan yang tepat
+            </p>
             <DndContext onDragEnd={handleDragEnd}>
               <div className="mt-2 flex flex-row-reverse flex-wrap gap-1  text-xl">
                 {translationData?.map((vocab) => (
@@ -265,7 +267,9 @@ const LexiconTest = () => {
           </div>
 
           <div className="mt-2">
-            <p className="font-semibold text-on-secondary">Terjemah indah : </p>
+            <p className="font-semibold text-on-secondary/70">
+              Terjemah indah :{" "}
+            </p>
             <p className="text-right mt-2 italic text-on-secondary">
               {ayahData?.ayah.teksIndonesia}
             </p>
