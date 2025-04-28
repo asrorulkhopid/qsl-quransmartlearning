@@ -15,7 +15,7 @@ const Home = () => {
         <Banner images={images} />
       </div>
       {/* quote */}
-      <h5 className="mt-8 text-2xl font-serif">
+      <h5 className="mt-8 text-2xl font-gulzar">
         وَلَقَدْ يَسَّرْنَا ٱلْقُرْءَانَ لِلذِّكْرِ فَهَلْ مِن مُّدَّكِرٍ
       </h5>
       <blockquote className="mx-4 mt-4 text-center italic">
