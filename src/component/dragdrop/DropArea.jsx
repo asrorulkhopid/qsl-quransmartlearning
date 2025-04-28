@@ -7,10 +7,10 @@ const DropArea = ({ area_id, items, propertie, isCheck, isCorrect }) => {
 
   return (
     <div
-      className={`border-1 rounded-sm border-secondary border-dashed min-h-8 ${
+      className={`border-1 rounded-sm border-dashed min-h-8 ${
         items?.length === 1 && isCheck && items[0]?.id != area_id
-          ? "border-red-500"
-          : ""
+          ? "border-error"
+          : "border-secondary"
       }`}
       ref={setNodeRef}>
       {items?.length > 0 ? (

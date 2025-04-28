@@ -16,8 +16,8 @@ const DragItem = ({ item, propertie, isCheck, isCorrect }) => {
       {...listeners}
       {...attributes}
       style={{ ...style, touchAction: "none" }}
-      className={`p-1 min-w-12 border-1 rounded-sm border-secondary cursor-pointer font-scheherazade text-center ${
-        isCheck && !isCorrect ? "border-error" : ""
+      className={`p-1 min-w-12 border-1 rounded-sm cursor-pointer font-scheherazade text-center ${
+        isCheck && !isCorrect ? "border-error" : "border-secondary"
       }`}>
       {item[propertie]}
     </div>
