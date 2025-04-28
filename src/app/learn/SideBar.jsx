@@ -45,7 +45,7 @@ const SideBar = ({ setIsCollapse }) => {
     switch (expandedMenu) {
       case menus[0]:
         subMenuItem = (
-          <ul className="p-1 flex flex-col">
+          <ul className="ml-2 p-1 flex flex-col">
             {lexMenus.map((surah) => (
               <div key={surah.namaLatin}>
                 <li
@@ -82,7 +82,7 @@ const SideBar = ({ setIsCollapse }) => {
         break;
       case menus[1]:
         subMenuItem = (
-          <ul className="p-1 flex flex-col gap-1">
+          <ul className="ml-2 p-1 flex flex-col gap-1">
             {morphMenus.map((menu) => (
               <li
                 key={menu.id}
@@ -100,7 +100,7 @@ const SideBar = ({ setIsCollapse }) => {
         break;
       case menus[2]:
         subMenuItem = (
-          <ul className="p-1 flex flex-col gap-1">
+          <ul className="ml-2 p-1 flex flex-col gap-1">
             {phraseMenus.map((menu) => (
               <li
                 key={menu.id}

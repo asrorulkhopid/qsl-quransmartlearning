@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchMorphologi } from "../../../api/endpoint";
 import Error from "../../../component/error/Error";
 import Loading from "../../../component/loading/Loading";
+import Button from "../../../component/button/Button";
 
 const Morphologi = () => {
   const { id } = useParams();
@@ -42,11 +43,7 @@ const Morphologi = () => {
           />
         </div>
         <div className="flex justify-end mt-4 mr-16 w-full">
-          <button
-            onClick={() => navigate("exam")}
-            className="bg-accent px-4 py-2 text-surface rounded-md shadow-xs hover:shadow-md hover:font-semibold shadow-accent cursor-pointer">
-            Mark as Done
-          </button>
+          <Button onClick={() => navigate("exam")} title={"Mark as Done"} />
         </div>
       </div>
     </div>

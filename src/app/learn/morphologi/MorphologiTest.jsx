@@ -9,6 +9,7 @@ import DropArea from "../../../component/dragdrop/DropArea";
 import { DndContext } from "@dnd-kit/core";
 import MultipleDropArea from "../../../component/dragdrop/MultipleDropArea";
 import Divider from "../../../component/divider/Divider";
+import Button from "../../../component/button/Button";
 
 const MorphologiTest = () => {
   const handleDragEnd = (event) => {
@@ -143,11 +144,7 @@ const MorphologiTest = () => {
         </DndContext>
 
         <div className="text-right m-8 w-full">
-          <button
-            onClick={handleOnSubmit}
-            className="bg-accent px-4 py-2 text-surface rounded-md shadow-xs hover:shadow-md hover:font-semibold shadow-accent cursor-pointer">
-            Submit
-          </button>
+          <Button onClick={handleOnSubmit} title="Submit" />
         </div>
       </div>
     </div>

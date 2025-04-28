@@ -8,6 +8,7 @@ import { DndContext } from "@dnd-kit/core";
 import Loading from "../../../component/loading/Loading";
 import Error from "../../../component/error/Error";
 import Divider from "../../../component/divider/Divider";
+import Button from "../../../component/button/Button";
 
 const LexiconTest = () => {
   const handleCheckBoxChange = (vocab) => {
@@ -271,11 +272,7 @@ const LexiconTest = () => {
             <Divider />
           </div>
           <div className="text-right mt-8">
-            <button
-              onClick={handleOnSubmit}
-              className="bg-accent px-4 py-2 text-surface rounded-md shadow-xs hover:shadow-md hover:font-semibold shadow-accent cursor-pointer">
-              Submit
-            </button>
+            <Button onClick={handleOnSubmit} title="Submit" />
           </div>
         </div>
       </div>

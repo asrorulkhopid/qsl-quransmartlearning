@@ -7,6 +7,7 @@ import { fetchAyah, fetchVocabularies } from "../../../api/endpoint";
 import Loading from "../../../component/loading/Loading";
 import Error from "../../../component/error/Error";
 import Divider from "../../../component/divider/Divider";
+import Button from "../../../component/button/Button";
 const Lexicon = () => {
   const { ayah, surah } = useParams();
   const navigate = useNavigate();
@@ -76,11 +77,7 @@ const Lexicon = () => {
             <Divider />
           </div>
           <div className="text-right mt-8">
-            <button
-              onClick={() => navigate("exam")}
-              className="bg-accent px-4 py-2 text-surface rounded-md shadow-xs hover:shadow-md hover:font-semibold shadow-accent cursor-pointer">
-              Mark as Done
-            </button>
+            <Button onClick={() => navigate("exam")} title={"Mark as Done"} />
           </div>
         </div>
       </div>
