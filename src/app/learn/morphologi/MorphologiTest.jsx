@@ -84,7 +84,7 @@ const MorphologiTest = () => {
   }
 
   return (
-    <div className="h-full overflow-y-scroll no-scrollbar">
+    <div className="h-full overflow-y-scroll no-scrollbar text-on-secondary">
       <div className="flex flex-col items-center p-4 md:px-16">
         <div>
           <Label title={data.morph.title} />
