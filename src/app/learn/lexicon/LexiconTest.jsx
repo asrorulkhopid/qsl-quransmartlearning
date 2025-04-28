@@ -188,14 +188,14 @@ const LexiconTest = () => {
               {lexiconExamData?.map((vocab) => (
                 <div
                   key={vocab.id}
-                  className={`flex items-center border-2 border-secondary accent-primary gap-2 rounded-sm p-2 cursor-pointer ${
+                  className={`flex items-center border-2  accent-primary gap-2 rounded-sm p-2 cursor-pointer ${
                     isCheck &&
                     ((vocab.isIncluded &&
                       !selectedVocab.some((v) => v.id === vocab.id)) ||
                       (!vocab.isIncluded &&
                         selectedVocab.some((v) => v.id === vocab.id)))
-                      ? "border-red-500"
-                      : ""
+                      ? "border-error"
+                      : "border-secondary"
                   }`}>
                   <label className="cursor-pointer" htmlFor={`${vocab.id}`}>
                     {vocab.arab}
