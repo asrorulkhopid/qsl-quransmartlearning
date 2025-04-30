@@ -1,11 +1,11 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Label from "../../../component/label/Label";
 import { useQuery } from "@tanstack/react-query";
 import { fetchMorphologi } from "../../../api/endpoint";
-import Error from "../../../component/error/Error";
-import Loading from "../../../component/loading/Loading";
-import Button from "../../../component/button/Button";
+import Button from "../../../component/element/Button";
+import MainTitle from "../../../component/element/MainTitle";
+import Loading from "../../loading/Loading";
+import Error from "../../error/Error";
 
 const Morphologi = () => {
   const { id } = useParams();
@@ -25,7 +25,7 @@ const Morphologi = () => {
     <div className="px-4 md:px-16 lg:px-44 h-full text-on-secondary overflow-y-scroll no-scrollbar">
       <div className="my-4 flex flex-col items-center">
         <div>
-          <Label title={`Morphologi - ${data.title}`} />
+          <MainTitle>{data.title}</MainTitle>
         </div>
         <div className="mt-4 max-w-4xl w-full">
           <iframe
@@ -43,7 +43,7 @@ const Morphologi = () => {
           />
         </div>
         <div className="flex justify-end mt-4 mr-16 w-full">
-          <Button onClick={() => navigate("exam")} title={"Mark as Done"} />
+          <Button onClick={() => navigate("exam")}>Mark as Done</Button>
         </div>
       </div>
     </div>

@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { fetchListSurah } from "../../api/endpoint";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Utils from "../../utils/Utils";
-import Loading from "../../component/loading/Loading";
-import Error from "../../component/error/Error";
+import Loading from "../loading/Loading";
+import Error from "../error/Error";
 
 const menus = [
   {
@@ -53,7 +53,12 @@ const SideBar = ({ setIsCollapse }) => {
                     e.stopPropagation();
                     setExpandedSurah((prev) => (prev === surah ? null : surah));
                   }}
-                  className="p-1 hover:bg-primary cursor-pointer">
+                  className={`p-1 hover:bg-primary cursor-pointer ${
+                    section[2] === menus[0].name.toLowerCase() &&
+                    surah.nomor == section[3]
+                      ? "border-l-4 border-on-secondary"
+                      : "border-secondary-variant"
+                  }`}>
                   {surah.namaLatin}
                 </li>
                 {expanddedSurah === surah && (
@@ -70,7 +75,13 @@ const SideBar = ({ setIsCollapse }) => {
                           if (Utils.isUnderScreenWidth(640))
                             setIsCollapse(true);
                         }}
-                        className="py-1.5 hover:text-primary cursor-pointer">{`Ayat : ${ayahNumber}`}</li>
+                        className={`py-1.5 hover:text-primary cursor-pointer ${
+                          section[2] == menus[0].name.toLowerCase() &&
+                          surah.nomor == section[3] &&
+                          ayahNumber == section[4]
+                            ? "font-bold text-primary"
+                            : ""
+                        }`}>{`Ayat : ${ayahNumber}`}</li>
                     ))}
                   </ul>
                 )}
@@ -91,7 +102,12 @@ const SideBar = ({ setIsCollapse }) => {
                   handleNavigate("morphologi", menu.id);
                   if (Utils.isUnderScreenWidth(640)) setIsCollapse(true);
                 }}
-                className="p-1 hover:bg-primary cursor-pointer">
+                className={`p-1 hover:bg-primary cursor-pointer ${
+                  section[2] === menus[1].name.toLowerCase() &&
+                  menu.id == section[3]
+                    ? "border-l-4 border-on-secondary"
+                    : ""
+                }`}>
                 {menu.name}
               </li>
             ))}
@@ -109,7 +125,12 @@ const SideBar = ({ setIsCollapse }) => {
                   handleNavigate("phrase", menu.id);
                   if (Utils.isUnderScreenWidth(640)) setIsCollapse(true);
                 }}
-                className="p-1 hover:bg-primary cursor-pointer">
+                className={`p-1 hover:bg-primary cursor-pointer ${
+                  section[2] === menus[2].name.toLowerCase() &&
+                  menu.id == section[3]
+                    ? "border-l-4 border-on-secondary"
+                    : ""
+                }`}>
                 {menu.name}
               </li>
             ))}
@@ -131,6 +152,8 @@ const SideBar = ({ setIsCollapse }) => {
   };
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const section = location.pathname.split("/");
   const { data, isLoading, isError, refetch } = useQuery({
     queryFn: fetchListSurah,
     queryKey: ["list-surah"],
@@ -154,7 +177,11 @@ const SideBar = ({ setIsCollapse }) => {
                   e.stopPropagation();
                   setExpandedMenu((prev) => (prev === menu ? null : menu));
                 }}
-                className="p-1 border-l-2 border-secondary-variant flex flex-col items-stretch cursor-pointer hover:bg-secondary-variant font-medium">
+                className={`p-1 border-l-2 flex flex-col items-stretch cursor-pointer hover:bg-secondary-variant font-medium ${
+                  section[2] === menu.name.toLowerCase()
+                    ? "border-l-4 border-on-secondary"
+                    : "border-secondary-variant"
+                }`}>
                 <div className="p-1">{menu.name}</div>
               </li>
               {expandedMenu === menu &&

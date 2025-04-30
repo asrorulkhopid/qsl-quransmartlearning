@@ -1,4 +1,4 @@
-import Banner from "../../component/banner/Banner";
+import Banner from "../../component/fragment/Banner";
 
 const images = ["1.svg", "2.svg", "3.svg", "4.svg"];
 

@@ -1,15 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { fetchMorphologiExam } from "../../../api/endpoint";
-import Loading from "../../../component/loading/Loading";
-import Error from "../../../component/error/Error";
-import Label from "../../../component/label/Label";
 import { useNavigate, useParams } from "react-router-dom";
 import DropArea from "../../../component/dragdrop/DropArea";
 import { DndContext } from "@dnd-kit/core";
 import MultipleDropArea from "../../../component/dragdrop/MultipleDropArea";
-import Divider from "../../../component/divider/Divider";
-import Button from "../../../component/button/Button";
+import Divider from "../../../component/element/Divider";
+import Button from "../../../component/element/Button";
+import MainTitle from "../../../component/element/MainTitle";
+import Loading from "../../loading/Loading";
+import Error from "../../error/Error";
+import Label from "../../../component/element/Label";
 
 const MorphologiTest = () => {
   const handleDragEnd = (event) => {
@@ -87,10 +88,9 @@ const MorphologiTest = () => {
 
   return (
     <div className="h-full overflow-y-scroll no-scrollbar text-on-secondary">
-      <div className="flex flex-col items-center p-4 md:px-16">
-        <div>
-          <Label title={data.morph.title} />
-          {console.log("render-", data)}
+      <div className="flex flex-col p-4 md:px-16">
+        <div className="self-center">
+          <MainTitle>{data.morph.title}</MainTitle>
         </div>
         <div className="w-full mt-4">
           <p style={{ direction: "rtl" }} className="text-xl font-scheherazade">
@@ -98,6 +98,7 @@ const MorphologiTest = () => {
           </p>
           <Divider />
         </div>
+        <Label>Kelompokkan mufradat berikut: </Label>
         <DndContext onDragEnd={handleDragEnd}>
           <div className="mt-2 w-full flex flex-row-reverse flex-wrap gap-2">
             {data.dictionaries.map((_, i) => (
@@ -146,7 +147,7 @@ const MorphologiTest = () => {
         </DndContext>
 
         <div className="text-right m-8 w-full">
-          <Button onClick={handleOnSubmit} title="Submit" />
+          <Button onClick={handleOnSubmit}>Submit</Button>
         </div>
       </div>
     </div>

@@ -1,10 +1,11 @@
 import React, { useRef, useState } from "react";
-import Label from "../../../component/label/Label";
-import Verse from "../../../component/verse/Verse";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import ReactAudioPlayer from "react-audio-player";
 import { fetchSurah } from "../../../api/endpoint";
+import MainTitle from "../../../component/element/MainTitle";
+import Verse from "../../../component/fragment/Verse";
+import Loading from "../../loading/Loading";
 
 const Surah = () => {
   const { id } = useParams();
@@ -45,21 +46,29 @@ const Surah = () => {
     }
   };
 
-  const { isLoading, data, isError } = useQuery({
+  const { isLoading, data, isError, refetch } = useQuery({
     queryFn: () => fetchSurah(id),
     queryKey: [`surah-${id}`],
     staleTime: Infinity,
     cacheTime: Infinity,
   });
 
-  if (isLoading) return <p className="text-black">Loading...</p>;
-  if (isError) return <p>Error - {isError}</p>;
+  if (isLoading) return <Loading />;
+  if (isError)
+    return (
+      <Error
+        message={"Something went wrong, Please try again!"}
+        onReload={refetch}
+      />
+    );
 
   return (
     <div className="p-2 lg:px-44 overflow-y-scroll no-scrollbar">
       <div className="flex flex-col">
         <div className="self-center pb-2 text-black">
-          <Label title={data?.data.namaLatin} />
+          <MainTitle>
+            <p className="h-full pt-2 font-gulzar">{data?.data.nama}</p>
+          </MainTitle>
         </div>
         <div>
           {data?.data.ayat.map((ayat) => (

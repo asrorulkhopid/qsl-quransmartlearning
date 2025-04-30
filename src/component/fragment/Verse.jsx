@@ -1,7 +1,7 @@
 import React from "react";
 import { CgPlayButton, CgPlayPause } from "react-icons/cg";
 import Utils from "../../utils/Utils";
-import Divider from "../divider/Divider";
+import Divider from "../element/Divider";
 
 const Verse = ({ verse, isPlaying, onPlayPause }) => {
   return (
