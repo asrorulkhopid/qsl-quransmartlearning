@@ -8,6 +8,7 @@ import MainTitle from "../../../component/element/MainTitle";
 import Loading from "../../loading/Loading";
 import Vocabulary from "../../../component/fragment/Vocabulary";
 import Label from "../../../component/element/Label";
+import Error from "../../error/Error";
 const Lexicon = () => {
   const { ayah, surah } = useParams();
   const navigate = useNavigate();
@@ -17,24 +18,28 @@ const Lexicon = () => {
     data: vocabularies,
     isError: errorVocabulary,
   } = useQuery({
-    queryFn: () => fetchVocabularies(surah, ayah),
-    queryKey: [`vocab-${surah}/${ayah}`],
+    queryFn: fetchVocabularies,
+    queryKey: [`vocab`, surah, ayah],
     staleTime: Infinity,
     cacheTime: Infinity,
   });
 
-  const { data: ayahData } = useQuery({
-    queryFn: () => fetchAyah(surah, ayah),
-    queryKey: [`ayah-${surah}/${ayah}`],
+  const {
+    isError: errorAyah,
+    isLoading: loadingAyah,
+    data: ayahData,
+  } = useQuery({
+    queryFn: fetchAyah,
+    queryKey: [`ayah`, surah, ayah],
     staleTime: Infinity,
     cacheTime: Infinity,
   });
 
-  if (loadingVocabularies) return <Loading />;
-  if (errorVocabulary)
+  if (loadingVocabularies || loadingAyah) return <Loading />;
+  if (errorVocabulary || errorAyah)
     return (
       <Error
-        message={"Something when wrong, please try again"}
+        message={"Something went wrong, please try again"}
         onReload={() => location.reload()}
       />
     );
