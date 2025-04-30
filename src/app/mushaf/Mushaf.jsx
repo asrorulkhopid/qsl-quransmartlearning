@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { fetchListSurah } from "../../api/endpoint";
-import Loading from "../../component/loading/Loading";
-import Error from "../../component/error/Error";
-import Label from "../../component/label/Label";
 import ItemSurah from "./ItemSurah";
+import MainTitle from "../../component/element/MainTitle";
+import Loading from "../loading/Loading";
+import Error from "../error/Error";
 
 const Mushaf = () => {
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ const Mushaf = () => {
     <div className="pb-2 overflow-y-scroll px-4 sm:px-8 md:px-24 no-scrollbar">
       <div className="flex flex-col">
         <div className="mt-2 self-center">
-          <Label title="Daftar Surah" />
+          <MainTitle>Daftar Surah</MainTitle>
         </div>
         <div className="mt-2 columns-1 sm:columns-2 lg:columns-3 gap-2">
           {console.log("ini data", data)}

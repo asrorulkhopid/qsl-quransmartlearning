@@ -1,13 +1,13 @@
 import React from "react";
-import Label from "../../../component/label/Label";
-import Vocabulary from "../../../component/vocabulary/Vocabulary";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAyah, fetchVocabularies } from "../../../api/endpoint";
-import Loading from "../../../component/loading/Loading";
-import Error from "../../../component/error/Error";
-import Divider from "../../../component/divider/Divider";
-import Button from "../../../component/button/Button";
+import Divider from "../../../component/element/Divider";
+import Button from "../../../component/element/Button";
+import MainTitle from "../../../component/element/MainTitle";
+import Loading from "../../loading/Loading";
+import Vocabulary from "../../../component/fragment/Vocabulary";
+import Label from "../../../component/element/Label";
 const Lexicon = () => {
   const { ayah, surah } = useParams();
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ const Lexicon = () => {
     <div>
       <div className="flex flex-col px-4 md:px-16 text-on-secondary">
         <div className="self-center mt-2">
-          <Label title={`Lexicon [ ${surah}:${ayah} ]`} />
+          <MainTitle>{`Lexicon [ ${surah}:${ayah} ]`}</MainTitle>
         </div>
         <div className="mt-4">
           <div>
@@ -55,9 +55,7 @@ const Lexicon = () => {
             <Divider />
           </div>
           <div className="mt-2">
-            <p className="font-semibold text-on-secondary/70">
-              Terdiri dari {ayahData?.length} kata :
-            </p>
+            <Label>Terdiri dari {ayahData?.length} kata :</Label>
             <div className="mt-2 flex flex-row-reverse flex-wrap gap-1">
               {vocabularies?.map((vocab, i) => (
                 <Vocabulary
@@ -70,16 +68,14 @@ const Lexicon = () => {
             <Divider />
           </div>
           <div className="mt-2">
-            <p className="font-semibold text-on-secondary/70">
-              Terjemah indah :{" "}
-            </p>
+            <Label>Terjemahan indah:</Label>
             <p className="text-right mt-2 italic">
               {ayahData?.ayah.teksIndonesia}
             </p>
             <Divider />
           </div>
           <div className="text-right mt-8">
-            <Button onClick={() => navigate("exam")} title={"Mark as Done"} />
+            <Button onClick={() => navigate("exam")}>Mark as Done</Button>
           </div>
         </div>
       </div>

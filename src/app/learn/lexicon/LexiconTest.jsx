@@ -2,13 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchAyah, fetchLexiconExamData } from "../../../api/endpoint";
-import Label from "../../../component/label/Label";
 import DropArea from "../../../component/dragdrop/DropArea";
 import { DndContext } from "@dnd-kit/core";
-import Loading from "../../../component/loading/Loading";
-import Error from "../../../component/error/Error";
-import Divider from "../../../component/divider/Divider";
-import Button from "../../../component/button/Button";
+import Divider from "../../../component/element/Divider";
+import Button from "../../../component/element/Button";
+import MainTitle from "../../../component/element/MainTitle";
+import Loading from "../../loading/Loading";
+import Error from "../../error/Error";
+import Label from "../../../component/element/Label";
 
 const LexiconTest = () => {
   const handleCheckBoxChange = (vocab) => {
@@ -149,7 +150,7 @@ const LexiconTest = () => {
     <div className="h-full overflow-y-scroll no-scrollbar pb-4 text-on-secondary">
       <div className="flex flex-col px-4 md:px-16">
         <div className="self-center mt-2">
-          <Label title={`Lexicon [ ${surah}:${ayah} ]`} />
+          <MainTitle>{`Lexicon [ ${surah}:${ayah} ]`}</MainTitle>
         </div>
         <div className="mt-4">
           <div>
@@ -267,16 +268,14 @@ const LexiconTest = () => {
           </div>
 
           <div className="mt-2">
-            <p className="font-semibold text-on-secondary/70">
-              Terjemah indah :{" "}
-            </p>
+            <Label>Terjemah indah : </Label>
             <p className="text-right mt-2 italic text-on-secondary">
               {ayahData?.ayah.teksIndonesia}
             </p>
             <Divider />
           </div>
           <div className="text-right mt-8">
-            <Button onClick={handleOnSubmit} title="Submit" />
+            <Button onClick={handleOnSubmit}>Submit</Button>
           </div>
         </div>
       </div>

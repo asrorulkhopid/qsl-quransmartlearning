@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import MenuItem from "./MenuItem";
+import MenuItem from "../element/MenuItem";
 
 const NavBar = () => {
   const [isCollapse, setIsCollapse] = useState(true);
@@ -50,11 +50,9 @@ const NavBar = () => {
               isCollapse ? "-right-40 sm:right-0 hidden sm:flex" : "-right-2"
             }`}>
             {menus.map((menu) => (
-              <MenuItem
-                key={menu.name}
-                title={menu.name}
-                onClick={() => handleMenuClick(menu)}
-              />
+              <MenuItem key={menu.name} onClick={() => handleMenuClick(menu)}>
+                {menu.name}
+              </MenuItem>
             ))}
           </ul>
         </div>

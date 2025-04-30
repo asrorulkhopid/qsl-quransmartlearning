@@ -1,11 +1,11 @@
 import React from "react";
-import Button from "../button/Button";
+import Button from "../../component/element/Button";
 
 const Error = ({ message, onReload }) => {
   return (
     <div className="h-full w-full flex flex-col justify-center items-center">
       <p>{message}</p>
-      <Button onClick={onReload} title={"Reload"} />
+      <Button onClick={onReload}>Reload</Button>
     </div>
   );
 };

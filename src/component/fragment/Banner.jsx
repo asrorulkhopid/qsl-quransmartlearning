@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Dot from "../dot/Dot";
+import Dot from "../element/Dot";
 
 const Banner = ({ images }) => {
   const [activeIndex, setActiveIndex] = useState(0);
