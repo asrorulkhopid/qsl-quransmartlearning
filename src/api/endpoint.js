@@ -12,7 +12,8 @@ const fetchSurah = async (id) => {
   return response.data;
 };
 
-export const fetchAyah = async (surah, ayah) => {
+export const fetchAyah = async (queryKey) => {
+  const [_key, surah, ayah] = queryKey;
   const response = await axiosInstance.get(`/surat/${surah}`);
   const allAyah = response.data.data.ayat;
   console.log(`fetching ${surah}-${ayah}`);
@@ -22,7 +23,8 @@ export const fetchAyah = async (surah, ayah) => {
   };
 };
 
-const fetchVocabularies = async (surah, ayah) => {
+const fetchVocabularies = async (queryKey) => {
+  const [_key, surah, ayah] = queryKey;
   const { data, error } = await supabase()
     .from("ayah_dictionary")
     .select("dictionaries")
