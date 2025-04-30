@@ -18,8 +18,8 @@ const Lexicon = () => {
     data: vocabularies,
     isError: errorVocabulary,
   } = useQuery({
-    queryFn: fetchVocabularies,
-    queryKey: [`vocab`, surah, ayah],
+    queryFn: () => fetchVocabularies(surah, ayah),
+    queryKey: [`vocab-${surah}/${ayah}`],
     staleTime: Infinity,
     cacheTime: Infinity,
   });
@@ -29,8 +29,8 @@ const Lexicon = () => {
     isLoading: loadingAyah,
     data: ayahData,
   } = useQuery({
-    queryFn: fetchAyah,
-    queryKey: [`ayah`, surah, ayah],
+    queryFn: () => fetchAyah(surah, ayah),
+    queryKey: [`ayah-${surah}/${ayah}`],
     staleTime: Infinity,
     cacheTime: Infinity,
   });
@@ -39,7 +39,7 @@ const Lexicon = () => {
   if (errorVocabulary || errorAyah)
     return (
       <Error
-        message={"Something went wrong, please try again"}
+        message={"Something when wrong, please try again"}
         onReload={() => location.reload()}
       />
     );
